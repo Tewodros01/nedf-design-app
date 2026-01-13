@@ -13,13 +13,13 @@ const PriceSection = () => {
         <AccordionTrigger className="text-black font-bold text-xl hover:no-underline p-0 py-0.5">
           Price
         </AccordionTrigger>
-        <AccordionContent className="pt-4" contentClassName="overflow-visible">
+        <AccordionContent className="pt-4">
           <Slider
             defaultValue={[50, 200]}
             min={0}
             max={250}
             step={1}
-            label="$"
+            // label="$"
           />
           <div className="mb-3" />
         </AccordionContent>
