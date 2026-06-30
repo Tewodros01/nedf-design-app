@@ -202,7 +202,7 @@ function ShopContent() {
         <BreadcrumbShop />
         <div className="flex flex-col md:flex-row md:space-x-5 items-start">
           {/* Sidebar Filters - Desktop */}
-          <div className="hidden md:block w-full md:min-w-[240px] lg:min-w-[260px] md:max-w-[260px] border border-black/10 rounded-[20px] px-4 md:px-5 py-4 space-y-4 md:space-y-5">
+          <div className="hidden md:block w-full md:min-w-[290px] lg:min-w-[300px] md:max-w-[260px] border border-black/10 rounded-[20px] px-4 md:px-5 py-4 space-y-4 md:space-y-5">
             <div className="flex items-center justify-between">
               <span className="font-bold text-black text-xl">{t("filters")}</span>
               <SlidersHorizontal className="text-2xl text-black/40" />
