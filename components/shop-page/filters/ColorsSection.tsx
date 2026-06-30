@@ -9,15 +9,17 @@ import {
 import { cn } from "@/lib/utils";
 import { useState } from "react";
 import { IoMdCheckmark } from "react-icons/io";
+import { useLanguage } from "@/lib/LanguageContext";
 
 const ColorsSection = () => {
   const [selected, setSelected] = useState<string>("bg-green-600");
+  const { t } = useLanguage();
 
   return (
     <Accordion type="single" collapsible defaultValue="filter-colors">
       <AccordionItem value="filter-colors" className="border-none">
         <AccordionTrigger className="text-black font-bold text-xl hover:no-underline p-0 py-0.5">
-          Colors
+          {t("color")}
         </AccordionTrigger>
         <AccordionContent className="pt-4 pb-0">
           <div className="flex space-2.5 flex-wrap md:grid grid-cols-5 gap-2.5">

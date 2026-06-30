@@ -1,3 +1,5 @@
+"use client";
+
 import { cn } from "@/lib/utils";
 import { Review } from "@/types/review.types";
 import React from "react";
@@ -5,6 +7,7 @@ import { IoIosCheckmarkCircle } from "react-icons/io";
 import { IoEllipsisHorizontal } from "react-icons/io5";
 import { Button } from "../ui/button";
 import Rating from "../ui/Rating";
+import { useLanguage } from "@/lib/LanguageContext";
 
 type ReviewCardProps = {
   blurChild?: React.ReactNode;
@@ -21,6 +24,8 @@ const ReviewCard = ({
   data,
   className,
 }: ReviewCardProps) => {
+  const { t } = useLanguage();
+
   return (
     <div
       className={cn([
@@ -50,7 +55,7 @@ const ReviewCard = ({
       <p className="text-sm sm:text-base text-black/60">{data.content}</p>
       {isDate && (
         <p className="text-black/60 text-sm font-medium mt-4 sm:mt-6">
-          Posted on {data.date}
+          {t("postedOn")} {data.date}
         </p>
       )}
     </div>

@@ -8,15 +8,17 @@ import {
 } from "@/components/ui/accordion";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
+import { useLanguage } from "@/lib/LanguageContext";
 
 const SizeSection = () => {
   const [selected, setSelected] = useState<string>("Large");
+  const { t } = useLanguage();
 
   return (
     <Accordion type="single" collapsible defaultValue="filter-size">
       <AccordionItem value="filter-size" className="border-none">
         <AccordionTrigger className="text-black font-bold text-xl hover:no-underline p-0 py-0.5">
-          Size
+          {t("size")}
         </AccordionTrigger>
         <AccordionContent className="pt-4 pb-0">
           <div className="flex items-center flex-wrap">

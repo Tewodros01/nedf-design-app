@@ -1,11 +1,16 @@
+"use client";
+
 import { integralCF } from "@/app/fonts";
 import { cn } from "@/lib/utils";
 import * as motion from "framer-motion/client";
 import { ShoppingCart } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { useLanguage } from "@/lib/LanguageContext";
 
 const Header = () => {
+  const { t } = useLanguage();
+
   return (
     <header className="py-6 sm:py-10">
       <div className="relative max-w-[1500px] mx-auto px-4 sm:px-6">
@@ -26,7 +31,7 @@ const Header = () => {
                   "text-[32px] sm:text-[40px] lg:text-[56px] leading-[1.1] tracking-wide mb-4 sm:mb-6"
                 )}
               >
-                CRAFTING <br /> YOUR IMAGINATION
+                {t("craftingImagination")}
               </motion.h2>
 
               <motion.p
@@ -35,8 +40,7 @@ const Header = () => {
                 transition={{ delay: 0.2, duration: 0.6 }}
                 className="max-w-[520px] text-black/60 mb-6 sm:mb-10 text-sm sm:text-base"
               >
-                NEDF DESIGN creates leather goods that tell stories stitched
-                with purpose, carried with pride.
+                {t("heroDescription")}
               </motion.p>
 
               <motion.div
@@ -51,7 +55,7 @@ const Header = () => {
                   className="relative z-10 inline-flex items-center gap-2 sm:gap-3 rounded-full bg-[#b77a45] px-6 sm:px-10 py-3 sm:py-4 text-white font-medium text-sm sm:text-base"
                 >
                   <ShoppingCart size={16} className="sm:size-[18px]" />
-                  Shop Now
+                  {t("shopNow")}
                 </Link>
               </motion.div>
             </section>

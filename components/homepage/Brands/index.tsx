@@ -1,3 +1,6 @@
+"use client";
+
+import { useLanguage } from "@/lib/LanguageContext";
 import Image from "next/image";
 
 const brandsData: { id: string; srcUrl: string }[] = [
@@ -20,11 +23,13 @@ const brandsData: { id: string; srcUrl: string }[] = [
 ];
 
 const Brands = () => {
+  const { t } = useLanguage();
+
   return (
     <div className="bg-white py-10 sm:py-16">
       <div className="max-w-frame mx-auto px-4">
         <p className="text-center text-gray-900 text-base sm:text-xl font-normal mb-8 sm:mb-12">
-          Trusted By
+          {t("trustedBy")}
         </p>
         <div className="flex flex-wrap items-center justify-center gap-6 sm:gap-8">
           {brandsData.map((brand) => (

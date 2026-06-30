@@ -16,6 +16,7 @@ import * as motion from "framer-motion/client";
 import React from "react";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa6";
 import { useIsClient, useMediaQuery } from "usehooks-ts";
+import { useLanguage } from "@/lib/LanguageContext";
 
 type ReviewsProps = { data: Review[] };
 
@@ -25,6 +26,7 @@ const Reviews = ({ data }: ReviewsProps) => {
   const [count, setCount] = React.useState(0);
   const isDesktop = useMediaQuery("(min-width: 1024px)");
   const isClient = useIsClient();
+  const { t } = useLanguage();
 
   React.useEffect(() => {
     if (!api) {
@@ -68,7 +70,7 @@ const Reviews = ({ data }: ReviewsProps) => {
                 "text-[32px] leading-[36px] md:text-5xl capitalize mr-auto",
               ])}
             >
-              OUR HAPPY CUSTOMERS
+              {t("happyCustomers")}
             </motion.h2>
             <div className="flex items-center space-x-1 ml-2">
               <CarouselPrevious variant="ghost" className="text-2xl">

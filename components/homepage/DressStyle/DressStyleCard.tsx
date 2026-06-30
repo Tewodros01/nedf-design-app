@@ -1,4 +1,5 @@
 import { cn } from "@/lib/utils";
+import { integralCF } from "@/app/fonts";
 import Link from "next/link";
 
 type DressStyleCardProps = {
@@ -8,20 +9,24 @@ type DressStyleCardProps = {
 };
 
 const DressStyleCard = ({ title, url, className }: DressStyleCardProps) => {
-  // Convert hash-based URLs to query params for the shop page
-  const href = url.startsWith('/shop#') 
-    ? `/shop?style=${url.split('#')[1]}` 
-    : url;
-
   return (
     <Link
-      href={href}
+      href={url}
       className={cn([
-        "w-full md:h-full rounded-[20px] bg-white bg-top text-lg sm:text-2xl md:text-4xl font-bold text-left py-4 md:py-[25px] px-4 sm:px-6 md:px-9 bg-no-repeat bg-cover",
+        "bg-cover bg-no-repeat rounded-[20px] p-5 sm:p-10 w-full flex items-start justify-between flex-col",
         className,
       ])}
     >
-      {title}
+      <div className="flex items-start justify-start">
+        <span
+          className={cn([
+            integralCF.className,
+            "text-2xl sm:text-3xl xl:text-4xl font-bold text-black text-left capitalize",
+          ])}
+        >
+          {title}
+        </span>
+      </div>
     </Link>
   );
 };

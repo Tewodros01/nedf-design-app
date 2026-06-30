@@ -1,3 +1,5 @@
+"use client";
+
 import { integralCF } from "@/app/fonts";
 import {
   Carousel,
@@ -9,6 +11,7 @@ import { Product } from "@/types/product.types";
 import * as motion from "framer-motion/client";
 import Link from "next/link";
 import ProductCard from "./ProductCard";
+import { useLanguage } from "@/lib/LanguageContext";
 
 type ProductListSecProps = {
   title: string;
@@ -17,6 +20,8 @@ type ProductListSecProps = {
 };
 
 const ProductListSec = ({ title, data, viewAllLink }: ProductListSecProps) => {
+  const { t } = useLanguage();
+
   return (
     <section className="max-w-frame mx-auto text-center">
       <motion.h2
@@ -60,7 +65,7 @@ const ProductListSec = ({ title, data, viewAllLink }: ProductListSecProps) => {
               href={viewAllLink}
               className="w-full inline-block sm:w-[218px] px-[54px] py-4 border rounded-full hover:bg-black hover:text-white text-black transition-all font-medium text-sm sm:text-base border-black/10"
             >
-              View All
+              {t("viewAll")}
             </Link>
           </div>
         )}

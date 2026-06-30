@@ -46,7 +46,6 @@ const translations: Record<Language, Record<string, string>> = {
     "tryAdjusting": "Try adjusting your filters",
     "showing": "Showing",
     "of": "of",
-    "products": "Products",
     "previous": "Previous",
     "next": "Next",
 
@@ -201,7 +200,6 @@ const translations: Record<Language, Record<string, string>> = {
     "tryAdjusting": "እባክዎ ማጣሪያዎችን ያስተካክሉ",
     "showing": "እያሳየ",
     "of": "ከ",
-    "products": "ምርቶች",
     "previous": "ወደ ኋላ",
     "next": "ወደ ፊት",
 

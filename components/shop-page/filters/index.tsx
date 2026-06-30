@@ -1,61 +1,71 @@
 "use client";
 
-import CategoriesSection from "@/components/shop-page/filters/CategoriesSection";
-import ColorsSection from "@/components/shop-page/filters/ColorsSection";
-import DressStyleSection from "@/components/shop-page/filters/DressStyleSection";
-import PriceSection from "@/components/shop-page/filters/PriceSection";
-import SizeSection from "@/components/shop-page/filters/SizeSection";
-import { Button } from "@/components/ui/button";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
+import { useLanguage } from "@/lib/LanguageContext";
+import CategoriesSection from "./CategoriesSection";
+import ColorsSection from "./ColorsSection";
+import DressStyleSection from "./DressStyleSection";
+import PriceSection from "./PriceSection";
+import SizeSection from "./SizeSection";
 
 type FiltersProps = {
-  activeCategory?: string;
-  activeStyle?: string;
-  onCategoryClick?: (category: string) => void;
-  onStyleClick?: (style: string) => void;
-  priceRange?: [number, number];
-  onPriceChange?: (range: [number, number]) => void;
-  onClearFilters?: () => void;
-  hasActiveFilters?: boolean;
+  activeCategory: string;
+  activeStyle: string;
+  onCategoryClick: (category: string) => void;
+  onStyleClick: (style: string) => void;
+  priceRange: [number, number];
+  onPriceChange: (range: [number, number]) => void;
+  onClearFilters: () => void;
+  hasActiveFilters: boolean;
 };
 
 const Filters = ({
-  activeCategory = "",
-  activeStyle = "",
+  activeCategory,
+  activeStyle,
   onCategoryClick,
   onStyleClick,
   priceRange,
   onPriceChange,
   onClearFilters,
-  hasActiveFilters = false,
+  hasActiveFilters,
 }: FiltersProps) => {
+  const { t } = useLanguage();
+
   return (
     <>
-      <hr className="border-t-black/10" />
+      <hr className="h-[1px] border-t-black/10" />
       <CategoriesSection
         activeCategory={activeCategory}
         onCategoryClick={onCategoryClick}
       />
-      <hr className="border-t-black/10" />
-      <PriceSection
-        priceRange={priceRange}
-        onPriceChange={onPriceChange}
-      />
-      <hr className="border-t-black/10" />
+      <hr className="h-[1px] border-t-black/10" />
+      <PriceSection priceRange={priceRange} onPriceChange={onPriceChange} />
+      <hr className="h-[1px] border-t-black/10" />
       <ColorsSection />
-      <hr className="border-t-black/10" />
+      <hr className="h-[1px] border-t-black/10" />
       <SizeSection />
-      <hr className="border-t-black/10" />
+      <hr className="h-[1px] border-t-black/10" />
       <DressStyleSection
         activeStyle={activeStyle}
         onStyleClick={onStyleClick}
       />
-      <Button
-        type="button"
-        className="bg-black w-full rounded-full text-sm font-medium py-4 h-12"
-        onClick={onClearFilters}
-      >
-        {hasActiveFilters ? "Clear Filters" : "Apply Filter"}
-      </Button>
+      {hasActiveFilters && (
+        <>
+          <hr className="h-[1px] border-t-black/10" />
+          <button
+            type="button"
+            onClick={onClearFilters}
+            className="w-full py-3 text-sm font-medium text-black/60 hover:text-black transition-colors"
+          >
+            {t("clearFilter")}
+          </button>
+        </>
+      )}
     </>
   );
 };

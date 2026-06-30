@@ -13,6 +13,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
+import { useLanguage } from "@/lib/LanguageContext";
 
 type Collection = {
   id: number;
@@ -30,6 +31,7 @@ type CollectionListProps = {
 
 const CollectionList = ({ title, description, data }: CollectionListProps) => {
   const [api, setApi] = React.useState<CarouselApi>();
+  const { t } = useLanguage();
 
   return (
     <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -54,7 +56,7 @@ const CollectionList = ({ title, description, data }: CollectionListProps) => {
           <div className="flex space-x-2">
             <button
               type="button"
-              title="Previous collection"
+              title={t("previousCollection")}
               onClick={() => api?.scrollPrev()}
               className="w-10 h-10 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-50"
             >
@@ -62,7 +64,7 @@ const CollectionList = ({ title, description, data }: CollectionListProps) => {
             </button>
             <button
               type="button"
-              title="Next collection"
+              title={t("nextCollection")}
               onClick={() => api?.scrollNext()}
               className="w-10 h-10 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-50"
             >
@@ -107,7 +109,7 @@ const CollectionList = ({ title, description, data }: CollectionListProps) => {
                         href={collection.viewAllLink}
                         className="inline-block bg-white text-black px-6 py-2 rounded-full text-sm font-medium hover:bg-gray-100 transition-colors"
                       >
-                        View All
+                        {t("viewAll")}
                       </Link>
                     </div>
                   </div>

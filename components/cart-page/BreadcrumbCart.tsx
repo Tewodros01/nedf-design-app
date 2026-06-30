@@ -1,4 +1,5 @@
-import React from "react";
+"use client";
+
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -8,19 +9,22 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import Link from "next/link";
+import { useLanguage } from "@/lib/LanguageContext";
 
 const BreadcrumbCart = () => {
+  const { t } = useLanguage();
+
   return (
     <Breadcrumb className="mb-2 sm:mb-6">
       <BreadcrumbList>
         <BreadcrumbItem>
           <BreadcrumbLink asChild>
-            <Link href="/">Home</Link>
+            <Link href="/">{t("home")}</Link>
           </BreadcrumbLink>
         </BreadcrumbItem>
         <BreadcrumbSeparator />
         <BreadcrumbItem>
-          <BreadcrumbPage>Cart</BreadcrumbPage>
+          <BreadcrumbPage>{t("cart")}</BreadcrumbPage>
         </BreadcrumbItem>
       </BreadcrumbList>
     </Breadcrumb>

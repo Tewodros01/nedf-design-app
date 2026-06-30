@@ -1,3 +1,6 @@
+"use client";
+
+import { useLanguage } from "@/lib/LanguageContext";
 import Image from "next/image";
 import Link from "next/link";
 import { FaFacebookF, FaGithub, FaInstagram, FaTwitter } from "react-icons/fa";
@@ -29,6 +32,8 @@ const socialsData: SocialNetworks[] = [
 ];
 
 const Footer = () => {
+  const { t } = useLanguage();
+
   return (
     <footer className="mt-10">
       <div className="pt-8 md:pt-[50px] px-4 pb-4">
@@ -37,17 +42,17 @@ const Footer = () => {
             {/* Newsletter Section */}
             <div className="md:col-span-2 lg:col-span-2">
               <h3 className="text-base sm:text-lg font-semibold mb-1 text-black">
-                Subscribe For The Latest
+                {t("subscribeLatest")}
               </h3>
               <h3 className="text-base sm:text-lg font-semibold mb-6 sm:mb-8 text-black">
-                Releases.
+                {t("releases")}
               </h3>
 
               <div className="mb-6">
-                <p className="text-sm text-gray-600 mb-2">Enter your email</p>
+                <p className="text-sm text-gray-600 mb-2">{t("enterYourEmail")}</p>
                 <input
                   type="email"
-                  placeholder="example@domain.com"
+                  placeholder={t("emailPlaceholder")}
                   className="w-full px-4 py-3 border border-gray-300 rounded-full focus:outline-none focus:border-gray-600 bg-transparent text-sm placeholder:text-gray-400"
                 />
               </div>
@@ -58,7 +63,7 @@ const Footer = () => {
                   htmlFor="privacy"
                   className="text-sm text-gray-600 leading-relaxed"
                 >
-                  I have Read And Agree To The Regarding Privacy Policy
+                  {t("privacyAgreement")}
                 </label>
               </div>
 
@@ -76,46 +81,46 @@ const Footer = () => {
 
             {/* Menu Section */}
             <div>
-              <h3 className="text-base sm:text-lg font-semibold mb-6 sm:mb-8 text-black">Menu</h3>
+              <h3 className="text-base sm:text-lg font-semibold mb-6 sm:mb-8 text-black">{t("menu")}</h3>
               <div className="space-y-5">
                 <Link
                   href="/wallet"
                   className="block text-sm text-gray-600 hover:text-black uppercase"
                 >
-                  WALLET
+                  {t("wallet")}
                 </Link>
                 <Link
                   href="/workbook"
                   className="block text-sm text-gray-600 hover:text-black uppercase"
                 >
-                  WORKBOOK
+                  {t("workbook")}
                 </Link>
                 <Link
                   href="/belts"
                   className="block text-sm text-gray-600 hover:text-black uppercase"
                 >
-                  BELTS
+                  {t("belts")}
                 </Link>
                 <Link
                   href="/bracelets"
                   className="block text-sm text-gray-600 hover:text-black uppercase"
                 >
-                  BRACELETS
+                  {t("bracelets")}
                 </Link>
               </div>
             </div>
 
             {/* Address Section */}
             <div>
-              <h3 className="text-base sm:text-lg font-semibold mb-6 sm:mb-8 text-black">Address</h3>
+              <h3 className="text-base sm:text-lg font-semibold mb-6 sm:mb-8 text-black">{t("address")}</h3>
 
               <div className="space-y-4 mb-8">
                 <div className="flex items-start">
                   <HiLocationMarker className="w-5 h-5 text-gray-500 mr-3 mt-0.5 flex-shrink-0" />
                   <p className="text-sm text-gray-600 leading-relaxed">
-                    Addis Ababa, Nifas Silk Lafto Woreda Haya
+                    {t("addressLine1")}
                     <br />
-                    Hulet, Bldg 5th Floor
+                    {t("addressLine2")}
                   </p>
                 </div>
                 <div className="flex items-center">
@@ -124,13 +129,13 @@ const Footer = () => {
                     href="mailto:nedf@nedfmanagement.com"
                     className="text-sm text-gray-600"
                   >
-                    nedf@nedfmanagement.com
+                    {t("emailUs")}
                   </a>
                 </div>
                 <div className="flex items-center">
                   <HiPhone className="w-5 h-5 text-gray-500 mr-3" />
                   <span className="text-sm text-gray-600">
-                    +251911234567 / +251911234567
+                    {t("phone")}
                   </span>
                 </div>
               </div>
@@ -155,7 +160,7 @@ const Footer = () => {
                   href="#top"
                   className="inline-block px-4 py-2 border border-gray-300 rounded-full text-sm text-gray-600 hover:text-black hover:border-gray-600 bg-transparent transition-colors"
                 >
-                  Back To Top
+                  {t("backToTop")}
                 </Link>
               </div>
             </div>
@@ -164,13 +169,13 @@ const Footer = () => {
           <hr className="h-[1px] border-t-black/10 mb-6 mt-16" />
           <div className="flex flex-col sm:flex-row justify-between items-center mb-2">
             <p className="text-sm text-black/60 mb-4 sm:mb-0">
-              2025 NEDF Design. All rights reserved.
+              {t("allRightsReserved")}
             </p>
             <Link
               href="/privacy"
               className="text-sm text-gray-600 hover:text-black"
             >
-              Privacy and policy
+              {t("privacyPolicy")}
             </Link>
           </div>
         </div>

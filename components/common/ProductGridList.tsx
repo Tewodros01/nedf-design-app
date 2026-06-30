@@ -7,6 +7,7 @@ import { Eye, Heart } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
+import { useLanguage } from "@/lib/LanguageContext";
 
 type FilterType = "new" | "all" | "popular";
 
@@ -17,11 +18,12 @@ type ProductGridListProps = {
 
 const ProductGridList = ({ data, viewAllLink }: ProductGridListProps) => {
   const [activeFilter, setActiveFilter] = useState<FilterType>("new");
+  const { t } = useLanguage();
 
   const filters = [
-    { key: "new" as FilterType, label: "New Collection" },
-    { key: "all" as FilterType, label: "ALL Collection" },
-    { key: "popular" as FilterType, label: "Popular Collection" },
+    { key: "new" as FilterType, labelKey: "newCollection" },
+    { key: "all" as FilterType, labelKey: "allCollection" },
+    { key: "popular" as FilterType, labelKey: "popularCollection" },
   ];
 
   return (
@@ -62,7 +64,7 @@ const ProductGridList = ({ data, viewAllLink }: ProductGridListProps) => {
                   </div>
                 </div>
                 <span className="text-xs sm:text-sm font-medium text-gray-700">
-                  {filter.label}
+                  {t(filter.labelKey)}
                 </span>
               </label>
             ))}
@@ -85,14 +87,14 @@ const ProductGridList = ({ data, viewAllLink }: ProductGridListProps) => {
                 <div className="flex space-x-2">
                   <button
                     type="button"
-                    title="Add to wishlist"
+                    title={t("addToWishlist")}
                     className="w-6 h-6 flex items-center justify-center"
                   >
                     <Heart className="w-4 h-4 text-gray-400" />
                   </button>
                   <button
                     type="button"
-                    title="Quick view"
+                    title={t("quickView")}
                     className="w-6 h-6 flex items-center justify-center"
                   >
                     <Eye className="w-4 h-4 text-gray-400" />
@@ -124,7 +126,7 @@ const ProductGridList = ({ data, viewAllLink }: ProductGridListProps) => {
               href={viewAllLink}
               className="inline-block px-12 py-3 border border-gray-300 rounded-full hover:bg-black hover:text-white hover:border-black transition-all font-medium text-sm"
             >
-              View All
+              {t("viewAll")}
             </Link>
           </motion.div>
         )}
