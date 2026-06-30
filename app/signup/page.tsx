@@ -10,8 +10,6 @@ import { Eye, EyeOff, Loader2, MailCheck, CheckCircle } from "lucide-react";
 import { useLanguage } from "@/lib/LanguageContext";
 
 export default function SignUpPage() {
-  const router = useRouter();
-  const dispatch = useAppDispatch();
   const { t } = useLanguage();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");

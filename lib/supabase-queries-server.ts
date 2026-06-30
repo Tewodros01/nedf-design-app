@@ -48,10 +48,12 @@ export async function fetchCollectionBySlug(
   slug: string
 ): Promise<OldCollection | null> {
   const supabase = await createServerClient();
+  // Use limit(1) + maybeSingle() to safely handle 0 rows or duplicate rows
   const { data } = await supabase
     .from("collections")
     .select("*")
     .or(`view_all_link.ilike.%${slug}%,title.ilike.%${slug}%`)
+    .limit(1)
     .maybeSingle();
 
   return data ? toOldCollection(data) : null;
