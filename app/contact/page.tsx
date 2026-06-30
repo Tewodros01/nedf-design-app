@@ -97,7 +97,7 @@ export default function ContactPage() {
                       <HiMail className="w-5 h-5 text-black/60" />
                     </div>
                     <div>
-                      <p className="font-medium text-sm text-black mb-1">Email</p>
+                      <p className="font-medium text-sm text-black mb-1">{t("email")}</p>
                       <a
                         href="mailto:nedf@nedfmanagement.com"
                         className="text-sm text-black/60 hover:text-black"
@@ -112,7 +112,7 @@ export default function ContactPage() {
                       <HiPhone className="w-5 h-5 text-black/60" />
                     </div>
                     <div>
-                      <p className="font-medium text-sm text-black mb-1">Phone</p>
+                      <p className="font-medium text-sm text-black mb-1">{t("phoneLabel")}</p>
                       <p className="text-sm text-black/60">
                         {t("phone")}
                       </p>
@@ -123,7 +123,7 @@ export default function ContactPage() {
 
               <div className="bg-[#F0F0F0] rounded-[20px] p-6 sm:p-8">
                 <h3 className="font-bold text-lg sm:text-xl text-black mb-4">
-                  {t("language")}
+                  {t("followUs")}
                 </h3>
                 <div className="flex items-center space-x-3">
                   <Link
@@ -226,7 +226,7 @@ export default function ContactPage() {
                       onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                       placeholder={t("contactMessagePlaceholder")}
                       rows={5}
-                      className="w-full px-4 py-3 bg-white border border-transparent rounded-[20px] focus:outline-none focus:border-black/30 text-sm placeholder:text-black/30 resize-none"
+                      className="w-full px-4 py-3 bg-white border border-transparent rounded-full focus:outline-none focus:border-black/30 text-sm placeholder:text-black/30 resize-none"
                     />
                   </div>
 

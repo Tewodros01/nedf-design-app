@@ -175,6 +175,8 @@ const translations: Record<Language, Record<string, string>> = {
     "contactEmailPlaceholder": "john@example.com",
     "contactSubjectPlaceholder": "How can we help?",
     "contactMessagePlaceholder": "Write your message here...",
+    "followUs": "Follow Us",
+    "phoneLabel": "Phone",
 
     // About page
     "aboutTitle": "About NEDF Design",
@@ -380,6 +382,8 @@ const translations: Record<Language, Record<string, string>> = {
     "contactEmailPlaceholder": "ጆን@ምሳሌ.com",
     "contactSubjectPlaceholder": "እንዴት መርዳት እንችላለን?",
     "contactMessagePlaceholder": "መልዕክትዎን እዚህ ይፃፉ...",
+    "followUs": "ይከተሉን",
+    "phoneLabel": "ስልክ",
 
     // About page
     "aboutTitle": "ስለ NEDF Design",
