@@ -36,11 +36,12 @@ const ProductGridList = ({ data, viewAllLink }: ProductGridListProps) => {
           transition={{ delay: 0.3, duration: 0.6 }}
           className="flex justify-center mb-8 sm:mb-12"
         >
-          <div className="flex flex-col sm:flex-row gap-4 sm:gap-12">
+          {/* Responsive: scrollable row on mobile, spaced row on sm+ */}
+          <div className="flex flex-row gap-4 sm:gap-12 overflow-x-auto scrollbar-hide pb-1 max-w-full">
             {filters.map((filter) => (
               <label
                 key={filter.key}
-                className="flex items-center cursor-pointer"
+                className="flex items-center cursor-pointer shrink-0"
               >
                 <div className="relative mr-3">
                   <input
@@ -63,7 +64,7 @@ const ProductGridList = ({ data, viewAllLink }: ProductGridListProps) => {
                     )}
                   </div>
                 </div>
-                <span className="text-xs sm:text-sm font-medium text-gray-700">
+                <span className="text-xs sm:text-sm font-medium text-gray-700 whitespace-nowrap">
                   {t(filter.labelKey)}
                 </span>
               </label>
@@ -79,35 +80,36 @@ const ProductGridList = ({ data, viewAllLink }: ProductGridListProps) => {
           className="grid grid-cols-2 sm:grid-cols-3 gap-4 sm:gap-6 mb-8 sm:mb-12 max-w-4xl mx-auto"
         >
           {data.slice(0, 6).map((product) => (
-            <div key={product.id} className="bg-gray-50 rounded-lg p-4 w-full">
-              <div className="flex justify-between items-start mb-4">
-                <span className="text-sm font-medium text-gray-700">
+            <div key={product.id} className="bg-gray-50 rounded-lg p-3 sm:p-4 w-full">
+              <div className="flex justify-between items-start mb-3 sm:mb-4">
+                <span className="text-xs sm:text-sm font-medium text-gray-700">
                   {product.price.toLocaleString()} ETB
                 </span>
-                <div className="flex space-x-2">
+                <div className="flex space-x-1 sm:space-x-2">
                   <button
                     type="button"
                     title={t("addToWishlist")}
                     className="w-6 h-6 flex items-center justify-center"
                   >
-                    <Heart className="w-4 h-4 text-gray-400" />
+                    <Heart className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-gray-400" />
                   </button>
                   <button
                     type="button"
                     title={t("quickView")}
                     className="w-6 h-6 flex items-center justify-center"
                   >
-                    <Eye className="w-4 h-4 text-gray-400" />
+                    <Eye className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-gray-400" />
                   </button>
                 </div>
               </div>
-              <div className="aspect-square mb-4 flex items-center justify-center">
+              <div className="aspect-square mb-3 sm:mb-4 flex items-center justify-center">
                 <Image
                   src={product.srcUrl}
                   alt={product.title}
                   width={200}
                   height={200}
                   className="object-contain max-w-full max-h-full"
+                  sizes="(max-width: 640px) 45vw, (max-width: 1024px) 30vw, 200px"
                 />
               </div>
             </div>

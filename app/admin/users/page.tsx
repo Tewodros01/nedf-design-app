@@ -87,25 +87,16 @@ export default function AdminUsersPage() {
         </div>
       ) : (
         <div className="bg-white rounded-xl border border-gray-100 overflow-hidden">
-          <div className="overflow-x-auto">
+          {/* Desktop table */}
+          <div className="hidden sm:block overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
                 <tr className="border-b border-gray-100 bg-gray-50/50">
-                  <th className="text-left px-4 py-3 font-medium text-gray-500">
-                    User
-                  </th>
-                  <th className="text-left px-4 py-3 font-medium text-gray-500">
-                    Email
-                  </th>
-                  <th className="text-left px-4 py-3 font-medium text-gray-500">
-                    Role
-                  </th>
-                  <th className="text-left px-4 py-3 font-medium text-gray-500">
-                    Joined
-                  </th>
-                  <th className="text-right px-4 py-3 font-medium text-gray-500">
-                    Actions
-                  </th>
+                  <th className="text-left px-4 py-3 font-medium text-gray-500">User</th>
+                  <th className="text-left px-4 py-3 font-medium text-gray-500">Email</th>
+                  <th className="text-left px-4 py-3 font-medium text-gray-500">Role</th>
+                  <th className="text-left px-4 py-3 font-medium text-gray-500">Joined</th>
+                  <th className="text-right px-4 py-3 font-medium text-gray-500">Actions</th>
                 </tr>
               </thead>
               <tbody>
@@ -116,12 +107,10 @@ export default function AdminUsersPage() {
                   >
                     <td className="px-4 py-3">
                       <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 rounded-full bg-black/10 flex items-center justify-center text-sm font-medium">
+                        <div className="w-8 h-8 rounded-full bg-black/10 flex items-center justify-center text-sm font-medium shrink-0">
                           {user.name?.charAt(0) || "?"}
                         </div>
-                        <span className="font-medium text-black">
-                          {user.name}
-                        </span>
+                        <span className="font-medium text-black">{user.name}</span>
                       </div>
                     </td>
                     <td className="px-4 py-3 text-gray-600">{user.email}</td>
@@ -147,23 +136,52 @@ export default function AdminUsersPage() {
                             ? "text-orange-500 hover:bg-orange-50"
                             : "text-gray-400 hover:bg-gray-100 hover:text-black"
                         }`}
-                        title={
-                          user.role === "admin"
-                            ? "Remove admin role"
-                            : "Make admin"
-                        }
+                        title={user.role === "admin" ? "Remove admin role" : "Make admin"}
                       >
-                        {user.role === "admin" ? (
-                          <ShieldOff size={16} />
-                        ) : (
-                          <Shield size={16} />
-                        )}
+                        {user.role === "admin" ? <ShieldOff size={16} /> : <Shield size={16} />}
                       </button>
                     </td>
                   </tr>
                 ))}
               </tbody>
             </table>
+          </div>
+
+          {/* Mobile card list */}
+          <div className="sm:hidden divide-y divide-gray-50">
+            {users.map((user) => (
+              <div key={user.id} className="px-4 py-4 flex items-center justify-between gap-3">
+                <div className="flex items-center gap-3 min-w-0">
+                  <div className="w-9 h-9 rounded-full bg-black/10 flex items-center justify-center text-sm font-medium shrink-0">
+                    {user.name?.charAt(0) || "?"}
+                  </div>
+                  <div className="min-w-0">
+                    <p className="font-medium text-black text-sm truncate">{user.name}</p>
+                    <p className="text-xs text-gray-400 truncate">{user.email}</p>
+                    <span
+                      className={`inline-flex mt-1 px-2 py-0.5 rounded-full text-xs font-medium ${
+                        user.role === "admin"
+                          ? "bg-purple-100 text-purple-800"
+                          : "bg-gray-100 text-gray-700"
+                      }`}
+                    >
+                      {user.role}
+                    </span>
+                  </div>
+                </div>
+                <button
+                  onClick={() => toggleRole(user.id, user.role)}
+                  className={`p-2.5 rounded-xl transition-colors shrink-0 ${
+                    user.role === "admin"
+                      ? "text-orange-500 hover:bg-orange-50"
+                      : "text-gray-400 hover:bg-gray-100 hover:text-black"
+                  }`}
+                  title={user.role === "admin" ? "Remove admin role" : "Make admin"}
+                >
+                  {user.role === "admin" ? <ShieldOff size={18} /> : <Shield size={18} />}
+                </button>
+              </div>
+            ))}
           </div>
         </div>
       )}

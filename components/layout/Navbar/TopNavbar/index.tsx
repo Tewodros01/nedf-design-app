@@ -86,10 +86,10 @@ const TopNavbar = () => {
   ];
 
   return (
-    <nav className="sticky top-0 bg-white z-20">
-      <div className="max-w-frame mx-auto px-4 sm:px-6 py-3">
-        <div className="flex items-center justify-between">
-          {/* Left Navigation */}
+    <nav className="sticky top-0 bg-white z-20 shadow-[0_1px_3px_rgba(0,0,0,0.06)]">
+      <div className="max-w-frame mx-auto px-4 sm:px-6 py-2 sm:py-3">
+        <div className="flex items-center justify-between min-h-[52px]">
+          {/* Left — Desktop Navigation */}
           <NavigationMenu className="hidden lg:flex">
             <NavigationMenuList className="flex space-x-2">
               {data.map((item) => (
@@ -105,45 +105,50 @@ const TopNavbar = () => {
             </NavigationMenuList>
           </NavigationMenu>
 
-          {/* Mobile Menu */}
-          <div className="block lg:hidden">
+          {/* Left — Mobile Hamburger */}
+          <div className="flex items-center lg:hidden">
             <ResTopNavbar data={data} />
           </div>
 
-          {/* Center Logo */}
-          <div className="absolute left-1/2 transform -translate-x-1/2">
-            <Link href="/">
+          {/* Center Logo — absolutely centered on all screen sizes */}
+          <div className="absolute left-1/2 -translate-x-1/2">
+            <Link href="/" aria-label="NEDF Home">
               <Image
                 priority
                 src="/images/nedf.png"
                 height={32}
                 width={80}
                 alt="NEDF"
+                className="h-7 sm:h-8 w-auto"
               />
             </Link>
           </div>
 
           {/* Right Icons */}
-          <div className="flex items-center space-x-2 sm:space-x-3 ml-auto">
-            {/* Search Input */}
-            <div className="hidden md:flex items-center bg-gray-50 rounded-md px-3 py-1.5 w-36 lg:w-48">
+          <div className="flex items-center gap-1 sm:gap-2 ml-auto">
+            {/* Search — desktop only inline, mobile link */}
+            <div className="hidden md:flex items-center bg-gray-50 rounded-lg px-3 py-2 w-36 lg:w-48">
               <Image
                 priority
                 src="/icons/search.svg"
                 height={16}
                 width={16}
                 alt="search"
-                className="mr-2 opacity-50"
+                className="mr-2 opacity-50 shrink-0"
               />
               <input
                 type="search"
                 placeholder={t("search")}
-                className="bg-transparent text-sm placeholder:text-gray-400 outline-none flex-1"
+                className="bg-transparent text-sm placeholder:text-gray-400 outline-none flex-1 min-w-0"
               />
             </div>
 
-            {/* Mobile Search */}
-            <Link href="/search" className="block md:hidden">
+            {/* Mobile Search icon */}
+            <Link
+              href="/search"
+              className="flex md:hidden items-center justify-center w-9 h-9 rounded-lg hover:bg-gray-50 transition-colors"
+              aria-label="Search"
+            >
               <Image
                 priority
                 src="/icons/search-black.svg"
@@ -154,10 +159,11 @@ const TopNavbar = () => {
             </Link>
 
             {/* Language Selector */}
-            <div className="relative">
+            <div className="relative hidden sm:block">
               <button
                 onClick={() => setShowLangMenu(!showLangMenu)}
-                className="flex items-center space-x-1 cursor-pointer px-2 py-1 rounded-md hover:bg-gray-50 transition-colors"
+                className="flex items-center gap-1 cursor-pointer px-2 py-2 rounded-lg hover:bg-gray-50 transition-colors min-h-[44px]"
+                aria-label="Language selector"
               >
                 <span className="text-xs sm:text-sm text-gray-700 font-medium">
                   {getLabel()}
@@ -170,13 +176,13 @@ const TopNavbar = () => {
                     className="fixed inset-0 z-10"
                     onClick={() => setShowLangMenu(false)}
                   />
-                  <div className="absolute right-0 top-full mt-1 z-20 bg-white border border-black/10 rounded-lg shadow-lg py-1 min-w-[120px]">
+                  <div className="absolute right-0 top-full mt-1 z-20 bg-white border border-black/10 rounded-xl shadow-lg py-1 min-w-[130px]">
                     <button
                       onClick={() => {
                         setLang("en");
                         setShowLangMenu(false);
                       }}
-                      className={`w-full text-left px-4 py-2 text-sm hover:bg-gray-50 transition-colors ${
+                      className={`w-full text-left px-4 py-3 text-sm hover:bg-gray-50 transition-colors ${
                         lang === "en" ? "font-medium text-black" : "text-black/60"
                       }`}
                     >
@@ -187,7 +193,7 @@ const TopNavbar = () => {
                         setLang("am");
                         setShowLangMenu(false);
                       }}
-                      className={`w-full text-left px-4 py-2 text-sm hover:bg-gray-50 transition-colors ${
+                      className={`w-full text-left px-4 py-3 text-sm hover:bg-gray-50 transition-colors ${
                         lang === "am" ? "font-medium text-black" : "text-black/60"
                       }`}
                     >
@@ -199,7 +205,11 @@ const TopNavbar = () => {
             </div>
 
             {/* Wishlist */}
-            <Link href="/wishlist">
+            <Link
+              href="/wishlist"
+              className="flex items-center justify-center w-9 h-9 rounded-lg hover:bg-gray-50 transition-colors"
+              aria-label="Wishlist"
+            >
               <HiOutlineHeart className="w-5 h-5 text-gray-700 hover:text-red-500 transition-colors" />
             </Link>
 
@@ -211,9 +221,10 @@ const TopNavbar = () => {
               <div className="relative">
                 <button
                   onClick={() => setShowUserMenu(!showUserMenu)}
-                  className="flex items-center space-x-1 p-1.5 rounded-full hover:bg-gray-50 transition-colors"
+                  className="flex items-center justify-center w-9 h-9 rounded-full hover:opacity-80 transition-opacity"
+                  aria-label="User menu"
                 >
-                  <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-black text-white flex items-center justify-center text-xs sm:text-sm font-medium">
+                  <div className="w-8 h-8 rounded-full bg-black text-white flex items-center justify-center text-sm font-medium">
                     {user.name.charAt(0).toUpperCase()}
                   </div>
                 </button>
@@ -223,8 +234,8 @@ const TopNavbar = () => {
                       className="fixed inset-0 z-10"
                       onClick={() => setShowUserMenu(false)}
                     />
-                    <div className="absolute right-0 top-full mt-1 z-20 bg-white border border-black/10 rounded-lg shadow-lg py-1 min-w-[160px]">
-                      <div className="px-4 py-2 border-b border-black/5">
+                    <div className="absolute right-0 top-full mt-2 z-20 bg-white border border-black/10 rounded-xl shadow-lg py-1 min-w-[180px]">
+                      <div className="px-4 py-3 border-b border-black/5">
                         <p className="text-sm font-medium text-black truncate">
                           {user.name}
                         </p>
@@ -234,7 +245,7 @@ const TopNavbar = () => {
                       </div>
                       <Link
                         href="/profile"
-                        className="flex items-center gap-2 px-4 py-2 text-sm text-black/60 hover:text-black hover:bg-gray-50 transition-colors"
+                        className="flex items-center gap-2 px-4 py-3 text-sm text-black/60 hover:text-black hover:bg-gray-50 transition-colors"
                         onClick={() => setShowUserMenu(false)}
                       >
                         <User size={14} />
@@ -243,7 +254,7 @@ const TopNavbar = () => {
                       {user.role === "admin" && (
                         <Link
                           href="/admin"
-                          className="flex items-center gap-2 px-4 py-2 text-sm text-black/60 hover:text-black hover:bg-gray-50 transition-colors"
+                          className="flex items-center gap-2 px-4 py-3 text-sm text-black/60 hover:text-black hover:bg-gray-50 transition-colors"
                           onClick={() => setShowUserMenu(false)}
                         >
                           <Shield size={14} />
@@ -257,7 +268,7 @@ const TopNavbar = () => {
                           dispatch(signOut());
                           setShowUserMenu(false);
                         }}
-                        className="flex items-center gap-2 px-4 py-2 text-sm text-red-500 hover:bg-red-50 transition-colors w-full text-left"
+                        className="flex items-center gap-2 px-4 py-3 text-sm text-red-500 hover:bg-red-50 transition-colors w-full text-left"
                       >
                         <LogOut size={14} />
                         {t("signout")}
@@ -267,12 +278,16 @@ const TopNavbar = () => {
                 )}
               </div>
             ) : (
-              <Link href="/signin">
+              <Link
+                href="/signin"
+                className="flex items-center justify-center w-9 h-9 rounded-lg hover:bg-gray-50 transition-colors"
+                aria-label="Sign in"
+              >
                 <Image
                   priority
                   src="/icons/user.svg"
-                  height={18}
-                  width={18}
+                  height={20}
+                  width={20}
                   alt="user"
                 />
               </Link>

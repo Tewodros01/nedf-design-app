@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/utils/supabase/client";
-import { Menu } from "lucide-react";
+import { Menu, LayoutDashboard } from "lucide-react";
 import AdminSidebar from "@/components/admin/AdminSidebar";
 
 export default function AdminLayout({
@@ -13,9 +13,7 @@ export default function AdminLayout({
 }) {
   const router = useRouter();
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [user, setUser] = useState<{ name: string; email: string } | null>(
-    null
-  );
+  const [user, setUser] = useState<{ name: string; email: string } | null>(null);
   const [isAdmin, setIsAdmin] = useState(false);
   const [checking, setChecking] = useState(true);
 
@@ -23,7 +21,6 @@ export default function AdminLayout({
     const checkAuth = async () => {
       const supabase = createClient();
 
-      // Get the authenticated user from Supabase Auth
       const {
         data: { user: authUser },
         error: authError,
@@ -35,8 +32,7 @@ export default function AdminLayout({
         return;
       }
 
-      // Fetch the user's profile including role
-      // Retry once in case of a transient RLS/session timing issue
+      // Fetch profile with retry
       let profile = null;
       for (let attempt = 0; attempt < 2; attempt++) {
         const { data, error } = await supabase
@@ -50,14 +46,12 @@ export default function AdminLayout({
           break;
         }
 
-        // Wait briefly before retry on first failure
         if (attempt === 0) {
           await new Promise((r) => setTimeout(r, 500));
         }
       }
 
       if (!profile) {
-        // Profile not found — likely not set up yet; redirect home
         router.push("/");
         setChecking(false);
         return;
@@ -83,6 +77,15 @@ export default function AdminLayout({
     router.push("/signin");
   };
 
+  // Close sidebar when pressing Escape
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setSidebarOpen(false);
+    };
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
+  }, []);
+
   if (checking) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
@@ -106,22 +109,29 @@ export default function AdminLayout({
         user={user}
       />
 
-      {/* Main Content */}
+      {/* Main content area */}
       <div className="flex-1 flex flex-col min-w-0 lg:overflow-y-auto">
-        {/* Top Bar (Mobile) */}
-        <header className="lg:hidden bg-white border-b border-gray-200 px-4 py-3 flex items-center justify-between sticky top-0 z-30">
+        {/* Mobile top bar — sticky, with menu toggle */}
+        <header className="lg:hidden bg-white border-b border-gray-200 px-4 py-0 flex items-center justify-between sticky top-0 z-30 min-h-[56px]">
           <button
             onClick={() => setSidebarOpen(true)}
-            className="p-1 hover:bg-gray-100 rounded-lg"
+            className="flex items-center justify-center w-10 h-10 hover:bg-gray-100 rounded-xl transition-colors"
+            aria-label="Open menu"
           >
-            <Menu size={24} />
+            <Menu size={22} />
           </button>
-          <span className="font-bold text-lg">Admin</span>
-          <div className="w-8" /> {/* Spacer */}
+          <div className="flex items-center gap-2">
+            <LayoutDashboard size={18} className="text-black/60" />
+            <span className="font-bold text-base">Admin Panel</span>
+          </div>
+          {/* Spacer to balance the menu button */}
+          <div className="w-10" />
         </header>
 
-        {/* Page Content */}
-        <main className="flex-1 p-4 sm:p-6 lg:p-8">{children}</main>
+        {/* Page content */}
+        <main className="flex-1 p-4 sm:p-6 lg:p-8 overflow-x-hidden">
+          {children}
+        </main>
       </div>
     </div>
   );

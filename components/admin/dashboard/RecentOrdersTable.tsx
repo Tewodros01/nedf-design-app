@@ -30,7 +30,7 @@ export default function RecentOrdersTable({
 }: RecentOrdersTableProps) {
   return (
     <div className="bg-white rounded-xl border border-gray-100">
-      <div className="px-6 py-4 border-b border-gray-100 flex items-center justify-between">
+      <div className="px-4 sm:px-6 py-4 border-b border-gray-100 flex items-center justify-between">
         <h2 className="font-semibold text-black">Recent Orders</h2>
         <Link
           href="/admin/orders"
@@ -49,61 +49,81 @@ export default function RecentOrdersTable({
           No orders yet
         </div>
       ) : (
-        <div className="overflow-x-auto">
-          <table className="w-full text-sm">
-            <thead>
-              <tr className="border-b border-gray-50">
-                <th className="text-left px-6 py-3 font-medium text-gray-500">
-                  Order
-                </th>
-                <th className="text-left px-6 py-3 font-medium text-gray-500">
-                  Customer
-                </th>
-                <th className="text-left px-6 py-3 font-medium text-gray-500">
-                  Amount
-                </th>
-                <th className="text-left px-6 py-3 font-medium text-gray-500">
-                  Status
-                </th>
-                <th className="text-left px-6 py-3 font-medium text-gray-500">
-                  Date
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {orders.map((order) => (
-                <tr
-                  key={order.id}
-                  className="border-b border-gray-50 hover:bg-gray-50/50 transition-colors"
-                >
-                  <td className="px-6 py-4 font-medium text-black">
-                    #{order.id}
-                  </td>
-                  <td className="px-6 py-4 text-black">
-                    {order.profiles?.name ||
-                      order.profiles?.email ||
-                      "N/A"}
-                  </td>
-                  <td className="px-6 py-4">
-                    ${Number(order.total_amount).toLocaleString()}
-                  </td>
-                  <td className="px-6 py-4">
-                    <span
-                      className={`inline-flex px-2.5 py-1 rounded-full text-xs font-medium capitalize ${
-                        statusColors[order.status] || "bg-gray-100 text-gray-800"
-                      }`}
-                    >
-                      {order.status}
-                    </span>
-                  </td>
-                  <td className="px-6 py-4 text-gray-500">
-                    {new Date(order.created_at).toLocaleDateString()}
-                  </td>
+        <>
+          {/* Desktop table — hidden on small screens */}
+          <div className="hidden sm:block overflow-x-auto">
+            <table className="w-full text-sm">
+              <thead>
+                <tr className="border-b border-gray-50">
+                  <th className="text-left px-6 py-3 font-medium text-gray-500">Order</th>
+                  <th className="text-left px-6 py-3 font-medium text-gray-500">Customer</th>
+                  <th className="text-left px-6 py-3 font-medium text-gray-500">Amount</th>
+                  <th className="text-left px-6 py-3 font-medium text-gray-500">Status</th>
+                  <th className="text-left px-6 py-3 font-medium text-gray-500">Date</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+              </thead>
+              <tbody>
+                {orders.map((order) => (
+                  <tr
+                    key={order.id}
+                    className="border-b border-gray-50 hover:bg-gray-50/50 transition-colors"
+                  >
+                    <td className="px-6 py-4 font-medium text-black">#{order.id}</td>
+                    <td className="px-6 py-4 text-black">
+                      {order.profiles?.name || order.profiles?.email || "N/A"}
+                    </td>
+                    <td className="px-6 py-4">
+                      ${Number(order.total_amount).toLocaleString()}
+                    </td>
+                    <td className="px-6 py-4">
+                      <span
+                        className={`inline-flex px-2.5 py-1 rounded-full text-xs font-medium capitalize ${
+                          statusColors[order.status] || "bg-gray-100 text-gray-800"
+                        }`}
+                      >
+                        {order.status}
+                      </span>
+                    </td>
+                    <td className="px-6 py-4 text-gray-500">
+                      {new Date(order.created_at).toLocaleDateString()}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          {/* Mobile card list — shown on small screens */}
+          <div className="sm:hidden divide-y divide-gray-50">
+            {orders.map((order) => (
+              <div key={order.id} className="px-4 py-4 space-y-2">
+                <div className="flex items-center justify-between">
+                  <span className="font-medium text-black text-sm">
+                    Order #{order.id}
+                  </span>
+                  <span
+                    className={`inline-flex px-2.5 py-1 rounded-full text-xs font-medium capitalize ${
+                      statusColors[order.status] || "bg-gray-100 text-gray-800"
+                    }`}
+                  >
+                    {order.status}
+                  </span>
+                </div>
+                <div className="flex items-center justify-between text-sm">
+                  <span className="text-gray-500">
+                    {order.profiles?.name || order.profiles?.email || "N/A"}
+                  </span>
+                  <span className="font-semibold text-black">
+                    ${Number(order.total_amount).toLocaleString()}
+                  </span>
+                </div>
+                <p className="text-xs text-gray-400">
+                  {new Date(order.created_at).toLocaleDateString()}
+                </p>
+              </div>
+            ))}
+          </div>
+        </>
       )}
     </div>
   );

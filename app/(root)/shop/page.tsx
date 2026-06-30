@@ -160,7 +160,7 @@ const styleFilterMap: Record<string, (p: Product) => boolean> = {
   if (loading) {
     return (
       <main className="pb-20">
-        <div className="max-w-frame mx-auto px-4 xl:px-0">
+        <div className="max-w-frame mx-auto px-4 sm:px-6 xl:px-0">
           <hr className="h-[1px] border-t-black/10 mb-5 sm:mb-6" />
           <BreadcrumbShop />
           <div className="flex items-center justify-center py-20">
@@ -243,12 +243,12 @@ const styleFilterMap: Record<string, (p: Product) => boolean> = {
   return (
     <>
       <main className="pb-20">
-      <div className="max-w-frame mx-auto px-4 xl:px-0">
+      <div className="max-w-frame mx-auto px-4 sm:px-6 xl:px-0">
         <hr className="h-[1px] border-t-black/10 mb-5 sm:mb-6" />
         <BreadcrumbShop />
-        <div className="flex flex-col mx-10 md:flex-row md:space-x-5 items-start">
+        <div className="flex flex-col md:flex-row md:gap-5 items-start">
           {/* Sidebar Filters - Desktop */}
-          <div className="hidden md:block w-full md:min-w-[290px] lg:min-w-[300px] md:max-w-[260px] border border-black/10 rounded-[20px] px-4 md:px-5 py-4 space-y-4 md:space-y-5">
+          <div className="hidden md:block w-full md:w-[240px] lg:w-[280px] shrink-0 border border-black/10 rounded-[20px] px-4 md:px-5 py-4 space-y-4 md:space-y-5">
             <div className="flex items-center justify-between">
               <span className="font-bold text-black text-xl">{t("filters")}</span>
               <SlidersHorizontal className="text-2xl text-black/40" />

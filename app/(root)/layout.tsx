@@ -1,29 +1,21 @@
-import { satoshi } from "@/app/fonts";
-import "@/app/globals.css";
 import HolyLoader from "holy-loader";
-import type { Metadata, Viewport } from "next";
 import Providers from "./providers";
+import TopBanner from "@/components/layout/Banner/TopBanner";
+import TopNavbar from "@/components/layout/Navbar/TopNavbar";
+import Footer from "@/components/layout/Footer";
 
-export const metadata: Metadata = {
-  title: "NEDF Design",
-  description: "NEDF Design — Crafting imagination into fashion",
-};
-
-export const viewport: Viewport = {
-  themeColor: "#000000",
-};
-
-export default function RootLayout({
+export default function RootGroupLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={satoshi.className}>
-        <HolyLoader color="#868686" />
-        <Providers>{children}</Providers>
-      </body>
-    </html>
+    <Providers>
+      <HolyLoader color="#868686" />
+      <TopBanner />
+      <TopNavbar />
+      {children}
+      <Footer />
+    </Providers>
   );
 }

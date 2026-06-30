@@ -4,32 +4,39 @@ import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/lib/LanguageContext";
 import Image from "next/image";
 import Link from "next/link";
+import { useState } from "react";
 
 const TopBanner = () => {
   const { t } = useLanguage();
+  const [visible, setVisible] = useState(true);
+
+  if (!visible) return null;
 
   return (
-    <div className="bg-black text-white text-center py-2 px-2 sm:px-4 xl:px-0">
-      <div className="relative max-w-frame mx-auto">
-        <p className="text-xs sm:text-sm">
+    <div className="bg-black text-white py-2.5 px-4 xl:px-0">
+      <div className="relative max-w-frame mx-auto flex items-center justify-center">
+        <p className="text-xs sm:text-sm text-center pr-8 sm:pr-0">
           {t("bannerSignup")}{" "}
           <Link href="#" className="underline font-medium">
             {t("signUpNow")}
           </Link>
         </p>
+        {/* Close button — visible on all screen sizes with touch target */}
         <Button
           variant="ghost"
-          className="hover:bg-transparent absolute right-0 top-1/2 -translate-y-1/2 w-fit h-fit p-1 hidden sm:flex"
+          className="hover:bg-transparent absolute right-0 top-1/2 -translate-y-1/2 w-8 h-8 p-0 flex items-center justify-center text-white/70 hover:text-white"
           size="icon"
           type="button"
           aria-label={t("closeBanner")}
+          onClick={() => setVisible(false)}
         >
           <Image
             priority
             src="/icons/times.svg"
-            height={13}
-            width={13}
+            height={12}
+            width={12}
             alt="close banner"
+            className="invert opacity-70"
           />
         </Button>
       </div>

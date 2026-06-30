@@ -201,28 +201,17 @@ export default function AdminOrdersPage() {
         </div>
       ) : (
         <div className="bg-white rounded-xl border border-gray-100 overflow-hidden">
-          <div className="overflow-x-auto">
+          {/* Desktop table */}
+          <div className="hidden sm:block overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
                 <tr className="border-b border-gray-100 bg-gray-50/50">
-                  <th className="text-left px-4 py-3 font-medium text-gray-500">
-                    Order
-                  </th>
-                  <th className="text-left px-4 py-3 font-medium text-gray-500">
-                    Customer
-                  </th>
-                  <th className="text-left px-4 py-3 font-medium text-gray-500">
-                    Amount
-                  </th>
-                  <th className="text-left px-4 py-3 font-medium text-gray-500">
-                    Status
-                  </th>
-                  <th className="text-left px-4 py-3 font-medium text-gray-500">
-                    Date
-                  </th>
-                  <th className="text-right px-4 py-3 font-medium text-gray-500">
-                    Actions
-                  </th>
+                  <th className="text-left px-4 py-3 font-medium text-gray-500">Order</th>
+                  <th className="text-left px-4 py-3 font-medium text-gray-500">Customer</th>
+                  <th className="text-left px-4 py-3 font-medium text-gray-500">Amount</th>
+                  <th className="text-left px-4 py-3 font-medium text-gray-500">Status</th>
+                  <th className="text-left px-4 py-3 font-medium text-gray-500">Date</th>
+                  <th className="text-right px-4 py-3 font-medium text-gray-500">Actions</th>
                 </tr>
               </thead>
               <tbody>
@@ -231,12 +220,8 @@ export default function AdminOrdersPage() {
                     key={order.id}
                     className="border-b border-gray-50 hover:bg-gray-50/50 transition-colors"
                   >
-                    <td className="px-4 py-3 font-medium text-black">
-                      #{order.id}
-                    </td>
-                    <td className="px-4 py-3">
-                      {order.profiles?.name || "N/A"}
-                    </td>
+                    <td className="px-4 py-3 font-medium text-black">#{order.id}</td>
+                    <td className="px-4 py-3">{order.profiles?.name || "N/A"}</td>
                     <td className="px-4 py-3 font-medium">
                       ${Number(order.total_amount).toLocaleString()}
                     </td>
@@ -264,6 +249,35 @@ export default function AdminOrdersPage() {
                 ))}
               </tbody>
             </table>
+          </div>
+
+          {/* Mobile card list */}
+          <div className="sm:hidden divide-y divide-gray-50">
+            {orders.map((order) => (
+              <div
+                key={order.id}
+                className="px-4 py-4"
+                onClick={() => setSelectedOrder(order)}
+              >
+                <div className="flex items-center justify-between mb-1.5">
+                  <span className="font-medium text-black text-sm">Order #{order.id}</span>
+                  <span
+                    className={`inline-flex px-2.5 py-1 rounded-full text-xs font-medium capitalize ${
+                      statusColors[order.status] || "bg-gray-100"
+                    }`}
+                  >
+                    {order.status}
+                  </span>
+                </div>
+                <div className="flex items-center justify-between text-sm">
+                  <span className="text-gray-500">{order.profiles?.name || "N/A"}</span>
+                  <span className="font-semibold">${Number(order.total_amount).toLocaleString()}</span>
+                </div>
+                <p className="text-xs text-gray-400 mt-1">
+                  {new Date(order.created_at).toLocaleDateString()}
+                </p>
+              </div>
+            ))}
           </div>
         </div>
       )}

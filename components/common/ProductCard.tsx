@@ -21,9 +21,10 @@ const ProductCard = ({ data }: ProductCardProps) => {
           className="rounded-md w-full h-full object-contain hover:scale-110 transition-all duration-500"
           alt={data.title}
           priority
+          sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 295px"
         />
       </div>
-      <strong className="text-black xl:text-xl">{data.title}</strong>
+      <strong className="text-black text-sm sm:text-base xl:text-xl">{data.title}</strong>
       <div className="flex items-end mb-1 xl:mb-2">
         <Rating
           initialValue={data.rating}
@@ -38,29 +39,29 @@ const ProductCard = ({ data }: ProductCardProps) => {
           <span className="text-black/60">/5</span>
         </span>
       </div>
-      <div className="flex items-center space-x-[5px] xl:space-x-2.5">
+      <div className="flex items-center flex-wrap gap-x-[5px] xl:gap-x-2.5 gap-y-1">
         {data.discount.percentage > 0 ? (
-          <span className="font-bold text-black text-xl xl:text-2xl">
+          <span className="font-bold text-black text-base sm:text-xl xl:text-2xl">
             {`$${Math.round(
               data.price - (data.price * data.discount.percentage) / 100
             )}`}
           </span>
         ) : data.discount.amount > 0 ? (
-          <span className="font-bold text-black text-xl xl:text-2xl">
+          <span className="font-bold text-black text-base sm:text-xl xl:text-2xl">
             {`$${data.price - data.discount.amount}`}
           </span>
         ) : (
-          <span className="font-bold text-black text-xl xl:text-2xl">
+          <span className="font-bold text-black text-base sm:text-xl xl:text-2xl">
             ${data.price}
           </span>
         )}
         {data.discount.percentage > 0 && (
-          <span className="font-bold text-black/40 line-through text-xl xl:text-2xl">
+          <span className="font-bold text-black/40 line-through text-base sm:text-xl xl:text-2xl">
             ${data.price}
           </span>
         )}
         {data.discount.amount > 0 && (
-          <span className="font-bold text-black/40 line-through text-xl xl:text-2xl">
+          <span className="font-bold text-black/40 line-through text-base sm:text-xl xl:text-2xl">
             ${data.price}
           </span>
         )}
