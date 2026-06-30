@@ -1,3 +1,5 @@
+"use client";
+
 import CollectionList from "@/components/common/CollectionList";
 import ProductGridList from "@/components/common/ProductGridList";
 import Brands from "@/components/homepage/Brands";
@@ -8,7 +10,11 @@ import {
   relatedProductData,
   collectionsData,
 } from "@/lib/data";
+import { useLanguage } from "@/lib/LanguageContext";
+
 export default function Home() {
+  const { t } = useLanguage();
+
   return (
     <>
       <Header />
@@ -19,8 +25,8 @@ export default function Home() {
           viewAllLink="/shop?category=new-arrivals"
         />
         <CollectionList
-          title="Collection List"
-          description="Get The Best Collection To Something From Behind The Scenes At These Things — And We Can't Wait For You To See Them."
+          title={t("collectionListTitle")}
+          description={t("collectionListDesc")}
           data={collectionsData}
         />
       </main>

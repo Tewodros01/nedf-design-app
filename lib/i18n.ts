@@ -120,6 +120,8 @@ const translations: Record<Language, Record<string, string>> = {
     "popularCollection": "Popular Collection",
     "previousCollection": "Previous collection",
     "nextCollection": "Next collection",
+    "collectionListTitle": "Collection List",
+    "collectionListDesc": "Get The Best Collection To Something From Behind The Scenes At These Things — And We Can't Wait For You To See Them.",
 
     // Banner
     "bannerSignup": "Sign up and get 20% off to your first order.",
@@ -279,6 +281,8 @@ const translations: Record<Language, Record<string, string>> = {
     "popularCollection": "ታዋቂ ስብስብ",
     "previousCollection": "የቀደመ ስብስብ",
     "nextCollection": "ቀጣይ ስብስብ",
+    "collectionListTitle": "የስብስብ ዝርዝር",
+    "collectionListDesc": "ከእነዚህ ነገሮች በስተጀርባ ያሉ ትዕይንቶች ምርጡን ስብስብ ያግኙ — እና እነሱን ለማየት መጠበቅ አንችልም።",
 
     // Banner
     "bannerSignup": "ይመዝገቡ እና ለመጀመሪያ ትዕዛዝዎ 20% ቅናሽ ያግኙ።",
