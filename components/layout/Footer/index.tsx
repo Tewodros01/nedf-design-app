@@ -31,15 +31,15 @@ const socialsData: SocialNetworks[] = [
 const Footer = () => {
   return (
     <footer className="mt-10">
-      <div className="pt-8 md:pt-[50px]  px-4 pb-4">
+      <div className="pt-8 md:pt-[50px] px-4 pb-4">
         <div className="max-w-frame mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-4 gap-16">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-16">
             {/* Newsletter Section */}
-            <div className="lg:col-span-2">
-              <h3 className="text-lg font-semibold mb-1 text-black">
+            <div className="md:col-span-2 lg:col-span-2">
+              <h3 className="text-base sm:text-lg font-semibold mb-1 text-black">
                 Subscribe For The Latest
               </h3>
-              <h3 className="text-lg font-semibold mb-8 text-black">
+              <h3 className="text-base sm:text-lg font-semibold mb-6 sm:mb-8 text-black">
                 Releases.
               </h3>
 
@@ -76,7 +76,7 @@ const Footer = () => {
 
             {/* Menu Section */}
             <div>
-              <h3 className="text-lg font-semibold mb-8 text-black">Menu</h3>
+              <h3 className="text-base sm:text-lg font-semibold mb-6 sm:mb-8 text-black">Menu</h3>
               <div className="space-y-5">
                 <Link
                   href="/wallet"
@@ -107,7 +107,7 @@ const Footer = () => {
 
             {/* Address Section */}
             <div>
-              <h3 className="text-lg font-semibold mb-8 text-black">Address</h3>
+              <h3 className="text-base sm:text-lg font-semibold mb-6 sm:mb-8 text-black">Address</h3>
 
               <div className="space-y-4 mb-8">
                 <div className="flex items-start">

@@ -32,7 +32,7 @@ export default function CartPage() {
               your cart
             </h2>
             <div className="flex flex-col lg:flex-row space-y-5 lg:space-y-0 lg:space-x-5 items-start">
-              <div className="w-full p-3.5 md:px-6 flex-col space-y-4 md:space-y-6 rounded-[20px] border border-black/10">
+              <div className="w-full p-3 sm:p-3.5 md:px-6 flex-col space-y-3 sm:space-y-4 md:space-y-6 rounded-[20px] border border-black/10">
                 {cart?.items.map((product, idx, arr) => (
                   <React.Fragment key={idx}>
                     <ProductCard data={product} />
@@ -42,37 +42,37 @@ export default function CartPage() {
                   </React.Fragment>
                 ))}
               </div>
-              <div className="w-full lg:max-w-[505px] p-5 md:px-6 flex-col space-y-4 md:space-y-6 rounded-[20px] border border-black/10">
-                <h6 className="text-xl md:text-2xl font-bold text-black">
+              <div className="w-full lg:max-w-[505px] p-4 sm:p-5 md:px-6 flex-col space-y-4 md:space-y-6 rounded-[20px] border border-black/10">
+                <h6 className="text-lg sm:text-xl md:text-2xl font-bold text-black">
                   Order Summary
                 </h6>
-                <div className="flex flex-col space-y-5">
+                <div className="flex flex-col space-y-4 sm:space-y-5">
                   <div className="flex items-center justify-between">
-                    <span className="md:text-xl text-black/60">Subtotal</span>
-                    <span className="md:text-xl font-bold">${totalPrice}</span>
+                    <span className="text-sm sm:text-base md:text-xl text-black/60">Subtotal</span>
+                    <span className="text-sm sm:text-base md:text-xl font-bold">${totalPrice}</span>
                   </div>
                   <div className="flex items-center justify-between">
-                    <span className="md:text-xl text-black/60">
+                    <span className="text-sm sm:text-base md:text-xl text-black/60">
                       Discount (-
                       {Math.round(
                         ((totalPrice - adjustedTotalPrice) / totalPrice) * 100
                       )}
                       %)
                     </span>
-                    <span className="md:text-xl font-bold text-red-600">
+                    <span className="text-sm sm:text-base md:text-xl font-bold text-red-600">
                       -${Math.round(totalPrice - adjustedTotalPrice)}
                     </span>
                   </div>
                   <div className="flex items-center justify-between">
-                    <span className="md:text-xl text-black/60">
+                    <span className="text-sm sm:text-base md:text-xl text-black/60">
                       Delivery Fee
                     </span>
-                    <span className="md:text-xl font-bold">Free</span>
+                    <span className="text-sm sm:text-base md:text-xl font-bold">Free</span>
                   </div>
                   <hr className="border-t-black/10" />
                   <div className="flex items-center justify-between">
-                    <span className="md:text-xl text-black">Total</span>
-                    <span className="text-xl md:text-2xl font-bold">
+                    <span className="text-sm sm:text-base md:text-xl text-black">Total</span>
+                    <span className="text-lg sm:text-xl md:text-2xl font-bold">
                       ${Math.round(adjustedTotalPrice)}
                     </span>
                   </div>

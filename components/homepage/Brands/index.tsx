@@ -21,12 +21,12 @@ const brandsData: { id: string; srcUrl: string }[] = [
 
 const Brands = () => {
   return (
-    <div className="bg-white py-16">
+    <div className="bg-white py-10 sm:py-16">
       <div className="max-w-frame mx-auto px-4">
-        <p className="text-center text-gray-900 text-xl font-normal mb-12">
+        <p className="text-center text-gray-900 text-base sm:text-xl font-normal mb-8 sm:mb-12">
           Trusted By
         </p>
-        <div className="flex flex-wrap items-center justify-center gap-8">
+        <div className="flex flex-wrap items-center justify-center gap-6 sm:gap-8">
           {brandsData.map((brand) => (
             <Image
               key={brand.id}

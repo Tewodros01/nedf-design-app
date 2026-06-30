@@ -32,18 +32,18 @@ const CollectionList = ({ title, description, data }: CollectionListProps) => {
   const [api, setApi] = React.useState<CarouselApi>();
 
   return (
-    <section className="max-w-7xl pl-40">
-      <div className="p-4">
+    <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="py-4">
         <motion.div
           initial={{ y: "50px", opacity: 0 }}
           whileInView={{ y: "0", opacity: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="flex items-start justify-between mb-8"
+          className="flex flex-col sm:flex-row items-start justify-between mb-6 sm:mb-8 gap-4"
         >
           <div className="max-w-md">
             <h2
-              className={cn([integralCF.className, "text-2xl font-bold mb-2"])}
+              className={cn([integralCF.className, "text-xl sm:text-2xl font-bold mb-2"])}
             >
               {title}
             </h2>
@@ -89,9 +89,9 @@ const CollectionList = ({ title, description, data }: CollectionListProps) => {
               {data.map((collection) => (
                 <CarouselItem
                   key={collection.id}
-                  className="basis-1/2 md:basis-1/3 lg:basis-1/4 pl-4"
+                  className="basis-3/4 sm:basis-1/2 md:basis-1/3 lg:basis-1/4 pl-4"
                 >
-                  <div className="relative h-96 rounded-lg overflow-hidden group">
+                  <div className="relative h-72 sm:h-80 md:h-96 rounded-lg overflow-hidden group">
                     <Image
                       src={collection.imageUrl}
                       alt={collection.title}

@@ -25,16 +25,16 @@ const ProductGridList = ({ data, viewAllLink }: ProductGridListProps) => {
   ];
 
   return (
-    <section className="max-w-7xl">
+    <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div className="">
         <motion.div
           initial={{ y: "50px", opacity: 0 }}
           whileInView={{ y: "0", opacity: 1 }}
           viewport={{ once: true }}
           transition={{ delay: 0.3, duration: 0.6 }}
-          className="flex justify-center mb-12"
+          className="flex justify-center mb-8 sm:mb-12"
         >
-          <div className="flex space-x-12">
+          <div className="flex flex-col sm:flex-row gap-4 sm:gap-12">
             {filters.map((filter) => (
               <label
                 key={filter.key}
@@ -61,7 +61,7 @@ const ProductGridList = ({ data, viewAllLink }: ProductGridListProps) => {
                     )}
                   </div>
                 </div>
-                <span className="text-sm font-medium text-gray-700">
+                <span className="text-xs sm:text-sm font-medium text-gray-700">
                   {filter.label}
                 </span>
               </label>
@@ -74,7 +74,7 @@ const ProductGridList = ({ data, viewAllLink }: ProductGridListProps) => {
           whileInView={{ y: "0", opacity: 1 }}
           viewport={{ once: true }}
           transition={{ delay: 0.6, duration: 0.6 }}
-          className="grid grid-cols-3 gap-6 mb-12 max-w-4xl mx-auto"
+          className="grid grid-cols-2 sm:grid-cols-3 gap-4 sm:gap-6 mb-8 sm:mb-12 max-w-4xl mx-auto"
         >
           {data.slice(0, 6).map((product) => (
             <div key={product.id} className="bg-gray-50 rounded-lg p-4 w-full">

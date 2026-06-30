@@ -21,10 +21,10 @@ const ProductCard = ({ data }: ProductCardProps) => {
   const dispatch = useAppDispatch();
 
   return (
-    <div className="flex items-start space-x-4">
+    <div className="flex items-start space-x-3 sm:space-x-4">
       <Link
         href={`/shop/product/${data.id}/${data.name.split(" ").join("-")}`}
-        className="bg-[#F0EEED] rounded-lg w-full min-w-[100px] max-w-[100px] sm:max-w-[124px] aspect-square overflow-hidden"
+        className="bg-[#F0EEED] rounded-lg w-full min-w-[80px] max-w-[80px] sm:min-w-[100px] sm:max-w-[124px] aspect-square overflow-hidden"
       >
         <Image
           src={data.srcUrl}
@@ -39,7 +39,7 @@ const ProductCard = ({ data }: ProductCardProps) => {
         <div className="flex items-center justify-between">
           <Link
             href={`/shop/product/${data.id}/${data.name.split(" ").join("-")}`}
-            className="text-black font-bold text-base xl:text-xl"
+            className="text-black font-bold text-sm sm:text-base xl:text-xl line-clamp-1"
           >
             {data.name}
           </Link>
@@ -128,7 +128,7 @@ const ProductCard = ({ data }: ProductCardProps) => {
                   )
             }
             isZeroDelete
-            className="px-5 py-3 max-h-8 md:max-h-10 min-w-[105px] max-w-[105px] sm:max-w-32"
+            className="px-3 py-2 sm:px-5 sm:py-3 max-h-8 md:max-h-10 min-w-[90px] max-w-[90px] sm:min-w-[105px] sm:max-w-32"
           />
         </div>
       </div>

@@ -32,7 +32,7 @@ const Tabs = () => {
 
   return (
     <div>
-      <div className="flex items-center mb-6 sm:mb-8 overflow-x-auto">
+      <div className="flex items-center mb-6 sm:mb-8 overflow-x-auto scrollbar-hide">
         {tabBtnData.map((tab) => (
           <Button
             key={tab.id}
@@ -42,7 +42,7 @@ const Tabs = () => {
               active === tab.id
                 ? "border-black border-b-2 font-medium"
                 : "border-b border-black/10 text-black/60 font-normal",
-              "p-5 sm:p-6 rounded-none flex-1",
+              "p-3 sm:p-5 md:p-6 rounded-none flex-1 text-xs sm:text-sm md:text-base whitespace-nowrap",
             ])}
             onClick={() => setActive(tab.id)}
           >

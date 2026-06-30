@@ -48,7 +48,7 @@ const ReviewsContent = () => {
       <div className="w-full px-4 sm:px-0 text-center">
         <Link
           href="#"
-          className="inline-block w-[230px] px-11 py-4 border rounded-full hover:bg-black hover:text-white text-black transition-all font-medium text-sm sm:text-base border-black/10"
+          className="inline-block w-full sm:w-[230px] px-6 sm:px-11 py-3 sm:py-4 border rounded-full hover:bg-black hover:text-white text-black transition-all font-medium text-sm sm:text-base border-black/10"
         >
           Load More Reviews
         </Link>
