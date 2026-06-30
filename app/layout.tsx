@@ -22,10 +22,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       {/* overflow-x clip on a div (not body/html) so sticky still works */}
-      <body className={satoshi.className}>
-        <div className="overflow-x-clip">
-          {children}
-        </div>
+      <body className={`${satoshi.className} overflow-x-hidden`}>
+        {children}
       </body>
     </html>
   );

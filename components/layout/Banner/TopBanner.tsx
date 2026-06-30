@@ -6,11 +6,20 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 
-const TopBanner = () => {
+type Props = {
+  onClose?: () => void;
+};
+
+const TopBanner = ({ onClose }: Props) => {
   const { t } = useLanguage();
   const [visible, setVisible] = useState(true);
 
   if (!visible) return null;
+
+  const handleClose = () => {
+    setVisible(false);
+    onClose?.();
+  };
 
   return (
     <div className="bg-black text-white py-2.5 px-4 xl:px-0">
@@ -21,14 +30,13 @@ const TopBanner = () => {
             {t("signUpNow")}
           </Link>
         </p>
-        {/* Close button — visible on all screen sizes with touch target */}
         <Button
           variant="ghost"
           className="hover:bg-transparent absolute right-0 top-1/2 -translate-y-1/2 w-8 h-8 p-0 flex items-center justify-center text-white/70 hover:text-white"
           size="icon"
           type="button"
           aria-label={t("closeBanner")}
-          onClick={() => setVisible(false)}
+          onClick={handleClose}
         >
           <Image
             priority
