@@ -2,7 +2,7 @@ import {
   newArrivalsData,
   relatedProductData,
   topSellingData,
-} from "@/app/page";
+} from "@/lib/data";
 import ProductListSec from "@/components/common/ProductListSec";
 import BreadcrumbProduct from "@/components/product-page/BreadcrumbProduct";
 import Header from "@/components/product-page/Header";
@@ -16,17 +16,19 @@ const data: Product[] = [
   ...relatedProductData,
 ];
 
-export default function ProductPage({
+export default async function ProductPage({
   params,
 }: {
-  params: { slug: string[] };
+  params: Promise<{ slug: string[] }>;
 }) {
-  if (!params.slug || !params.slug[0]) {
+  const { slug } = await params;
+
+  if (!slug || !slug[0]) {
     notFound();
   }
 
   const productData = data.find(
-    (product) => product.id === Number(params.slug[0])
+    (product) => product.id === Number(slug[0])
   );
 
   if (!productData?.title) {

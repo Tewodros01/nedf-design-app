@@ -8,9 +8,14 @@ type DressStyleCardProps = {
 };
 
 const DressStyleCard = ({ title, url, className }: DressStyleCardProps) => {
+  // Convert hash-based URLs to query params for the shop page
+  const href = url.startsWith('/shop#') 
+    ? `/shop?style=${url.split('#')[1]}` 
+    : url;
+
   return (
     <Link
-      href={url}
+      href={href}
       className={cn([
         "w-full md:h-full rounded-[20px] bg-white bg-top text-lg sm:text-2xl md:text-4xl font-bold text-left py-4 md:py-[25px] px-4 sm:px-6 md:px-9 bg-no-repeat bg-cover",
         className,

@@ -1,10 +1,12 @@
+"use client";
+
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import Link from "next/link";
+import { cn } from "@/lib/utils";
 import { MdKeyboardArrowRight } from "react-icons/md";
 
 type DressStyle = {
@@ -15,23 +17,31 @@ type DressStyle = {
 const dressStylesData: DressStyle[] = [
   {
     title: "Casual",
-    slug: "/shop?style=casual",
+    slug: "casual",
   },
   {
     title: "Formal",
-    slug: "/shop?style=formal",
+    slug: "formal",
   },
   {
     title: "Party",
-    slug: "/shop?style=party",
+    slug: "party",
   },
   {
     title: "Gym",
-    slug: "/shop?style=gym",
+    slug: "gym",
   },
 ];
 
-const DressStyleSection = () => {
+type DressStyleSectionProps = {
+  activeStyle?: string;
+  onStyleClick?: (style: string) => void;
+};
+
+const DressStyleSection = ({
+  activeStyle = "",
+  onStyleClick,
+}: DressStyleSectionProps) => {
   return (
     <Accordion type="single" collapsible defaultValue="filter-style">
       <AccordionItem value="filter-style" className="border-none">
@@ -41,13 +51,18 @@ const DressStyleSection = () => {
         <AccordionContent className="pt-4 pb-0">
           <div className="flex flex-col text-black/60 space-y-0.5">
             {dressStylesData.map((dStyle, idx) => (
-              <Link
+              <button
                 key={idx}
-                href={dStyle.slug}
-                className="flex items-center justify-between py-2"
+                onClick={() => onStyleClick?.(dStyle.slug)}
+                className={cn(
+                  "flex items-center justify-between py-2 w-full text-left transition-colors",
+                  activeStyle === dStyle.slug
+                    ? "text-black font-medium"
+                    : "hover:text-black"
+                )}
               >
                 {dStyle.title} <MdKeyboardArrowRight />
-              </Link>
+              </button>
             ))}
           </div>
         </AccordionContent>

@@ -1,4 +1,6 @@
-import Link from "next/link";
+"use client";
+
+import { cn } from "@/lib/utils";
 import { MdKeyboardArrowRight } from "react-icons/md";
 
 type Category = {
@@ -9,37 +11,50 @@ type Category = {
 const categoriesData: Category[] = [
   {
     title: "T-shirts",
-    slug: "/shop?category=t-shirts",
+    slug: "t-shirts",
   },
   {
     title: "Shorts",
-    slug: "/shop?category=shorts",
+    slug: "shorts",
   },
   {
     title: "Shirts",
-    slug: "/shop?category=shirts",
+    slug: "shirts",
   },
   {
     title: "Hoodie",
-    slug: "/shop?category=hoodie",
+    slug: "hoodie",
   },
   {
     title: "Jeans",
-    slug: "/shop?category=jeans",
+    slug: "jeans",
   },
 ];
 
-const CategoriesSection = () => {
+type CategoriesSectionProps = {
+  activeCategory?: string;
+  onCategoryClick?: (category: string) => void;
+};
+
+const CategoriesSection = ({
+  activeCategory = "",
+  onCategoryClick,
+}: CategoriesSectionProps) => {
   return (
     <div className="flex flex-col space-y-0.5 text-black/60">
       {categoriesData.map((category, idx) => (
-        <Link
+        <button
           key={idx}
-          href={category.slug}
-          className="flex items-center justify-between py-2"
+          onClick={() => onCategoryClick?.(category.slug)}
+          className={cn(
+            "flex items-center justify-between py-2 w-full text-left transition-colors",
+            activeCategory === category.slug
+              ? "text-black font-medium"
+              : "hover:text-black"
+          )}
         >
           {category.title} <MdKeyboardArrowRight />
-        </Link>
+        </button>
       ))}
     </div>
   );

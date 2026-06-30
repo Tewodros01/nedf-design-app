@@ -1,4 +1,4 @@
-import { reviewsData } from "@/app/page";
+import { reviewsData } from "@/lib/data";
 import ReviewCard from "@/components/common/ReviewCard";
 import { Button } from "@/components/ui/button";
 import {
