@@ -219,10 +219,28 @@ END;
 $$;
 
 -- ============================================================
--- 5. ROW LEVEL SECURITY
+-- 5. ADMIN CHECK HELPER (bypasses RLS recursion)
 -- ============================================================
 
--- 5.1 PROFILES
+CREATE OR REPLACE FUNCTION public.is_admin()
+RETURNS BOOLEAN
+LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = ''
+AS $$
+BEGIN
+  RETURN EXISTS (
+    SELECT 1 FROM public.profiles
+    WHERE id = auth.uid() AND role = 'admin'
+  );
+END;
+$$;
+
+-- ============================================================
+-- 6. ROW LEVEL SECURITY
+-- ============================================================
+
+-- 6.1 PROFILES
 ALTER TABLE profiles ENABLE ROW LEVEL SECURITY;
 
 -- Users can read their own profile; admins can read all
@@ -232,11 +250,7 @@ CREATE POLICY "Users can read own profile"
 
 CREATE POLICY "Admins can read all profiles"
   ON profiles FOR SELECT
-  USING (
-    EXISTS (
-      SELECT 1 FROM profiles WHERE id = auth.uid() AND role = 'admin'
-    )
-  );
+  USING (public.is_admin());
 
 -- Users can update their own profile; admins can update any
 CREATE POLICY "Users can update own profile"
@@ -246,11 +260,9 @@ CREATE POLICY "Users can update own profile"
 
 CREATE POLICY "Admins can update any profile"
   ON profiles FOR UPDATE
-  USING (
-    EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND role = 'admin')
-  );
+  USING (public.is_admin());
 
--- 5.2 PRODUCTS
+-- 6.2 PRODUCTS
 ALTER TABLE products ENABLE ROW LEVEL SECURITY;
 
 -- Anyone can read products
@@ -261,23 +273,17 @@ CREATE POLICY "Anyone can view products"
 -- Only admins can insert/update/delete products
 CREATE POLICY "Admins can insert products"
   ON products FOR INSERT
-  WITH CHECK (
-    EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND role = 'admin')
-  );
+  WITH CHECK (public.is_admin());
 
 CREATE POLICY "Admins can update products"
   ON products FOR UPDATE
-  USING (
-    EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND role = 'admin')
-  );
+  USING (public.is_admin());
 
 CREATE POLICY "Admins can delete products"
   ON products FOR DELETE
-  USING (
-    EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND role = 'admin')
-  );
+  USING (public.is_admin());
 
--- 5.3 COLLECTIONS
+-- 6.3 COLLECTIONS
 ALTER TABLE collections ENABLE ROW LEVEL SECURITY;
 
 CREATE POLICY "Anyone can view collections"
@@ -286,11 +292,9 @@ CREATE POLICY "Anyone can view collections"
 
 CREATE POLICY "Admins can manage collections"
   ON collections FOR ALL
-  USING (
-    EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND role = 'admin')
-  );
+  USING (public.is_admin());
 
--- 5.4 DRESS STYLES
+-- 6.4 DRESS STYLES
 ALTER TABLE dress_styles ENABLE ROW LEVEL SECURITY;
 
 CREATE POLICY "Anyone can view dress styles"
@@ -299,11 +303,9 @@ CREATE POLICY "Anyone can view dress styles"
 
 CREATE POLICY "Admins can manage dress styles"
   ON dress_styles FOR ALL
-  USING (
-    EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND role = 'admin')
-  );
+  USING (public.is_admin());
 
--- 5.5 REVIEWS
+-- 6.5 REVIEWS
 ALTER TABLE reviews ENABLE ROW LEVEL SECURITY;
 
 -- Anyone can read approved reviews
@@ -319,9 +321,7 @@ CREATE POLICY "Users can view own reviews"
 -- Admins can see all reviews
 CREATE POLICY "Admins can view all reviews"
   ON reviews FOR SELECT
-  USING (
-    EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND role = 'admin')
-  );
+  USING (public.is_admin());
 
 -- Authenticated users can insert their own reviews
 CREATE POLICY "Users can insert own reviews"
@@ -331,17 +331,13 @@ CREATE POLICY "Users can insert own reviews"
 -- Admins can update/delete any review
 CREATE POLICY "Admins can update reviews"
   ON reviews FOR UPDATE
-  USING (
-    EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND role = 'admin')
-  );
+  USING (public.is_admin());
 
 CREATE POLICY "Admins can delete reviews"
   ON reviews FOR DELETE
-  USING (
-    EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND role = 'admin')
-  );
+  USING (public.is_admin());
 
--- 5.6 ORDERS
+-- 6.6 ORDERS
 ALTER TABLE orders ENABLE ROW LEVEL SECURITY;
 
 -- Users can view their own orders; admins can view all
@@ -351,9 +347,7 @@ CREATE POLICY "Users can view own orders"
 
 CREATE POLICY "Admins can view all orders"
   ON orders FOR SELECT
-  USING (
-    EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND role = 'admin')
-  );
+  USING (public.is_admin());
 
 -- Users can insert their own orders
 CREATE POLICY "Users can insert own orders"
@@ -363,11 +357,9 @@ CREATE POLICY "Users can insert own orders"
 -- Admins can update any order
 CREATE POLICY "Admins can update orders"
   ON orders FOR UPDATE
-  USING (
-    EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND role = 'admin')
-  );
+  USING (public.is_admin());
 
--- 5.7 ORDER ITEMS
+-- 6.7 ORDER ITEMS
 ALTER TABLE order_items ENABLE ROW LEVEL SECURITY;
 
 -- Users can view their own order items via their orders
@@ -383,9 +375,7 @@ CREATE POLICY "Users can view own order items"
 
 CREATE POLICY "Admins can view all order items"
   ON order_items FOR SELECT
-  USING (
-    EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND role = 'admin')
-  );
+  USING (public.is_admin());
 
 CREATE POLICY "Users can insert own order items"
   ON order_items FOR INSERT
@@ -397,7 +387,7 @@ CREATE POLICY "Users can insert own order items"
     )
   );
 
--- 5.8 CART ITEMS
+-- 6.8 CART ITEMS
 ALTER TABLE cart_items ENABLE ROW LEVEL SECURITY;
 
 -- Users can manage their own cart items
@@ -406,7 +396,7 @@ CREATE POLICY "Users can manage own cart"
   USING (auth.uid() = user_id)
   WITH CHECK (auth.uid() = user_id);
 
--- 5.9 CONTACTS
+-- 6.9 CONTACTS
 ALTER TABLE contacts ENABLE ROW LEVEL SECURITY;
 
 -- Anyone can submit a contact form
@@ -417,21 +407,15 @@ CREATE POLICY "Anyone can insert contacts"
 -- Only admins can view/manage contacts
 CREATE POLICY "Admins can view contacts"
   ON contacts FOR SELECT
-  USING (
-    EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND role = 'admin')
-  );
+  USING (public.is_admin());
 
 CREATE POLICY "Admins can update contacts"
   ON contacts FOR UPDATE
-  USING (
-    EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND role = 'admin')
-  );
+  USING (public.is_admin());
 
 CREATE POLICY "Admins can delete contacts"
   ON contacts FOR DELETE
-  USING (
-    EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND role = 'admin')
-  );
+  USING (public.is_admin());
 
 -- ============================================================
 -- 6. CATEGORIES & STYLES - ADMIN SETUP
