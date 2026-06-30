@@ -22,11 +22,11 @@ const CategoriesSection = ({ activeCategory, onCategoryClick }: CategoriesSectio
     { slug: "men", labelKey: "men" },
     { slug: "women", labelKey: "women" },
     { slug: "kids", labelKey: "kids" },
-    { slug: "t-shirts", labelKey: "products" },
-    { slug: "shorts", labelKey: "products" },
-    { slug: "shirts", labelKey: "products" },
-    { slug: "hoodie", labelKey: "products" },
-    { slug: "jeans", labelKey: "products" },
+    { slug: "t-shirts", labelKey: "tShirts" },
+    { slug: "shorts", labelKey: "shorts" },
+    { slug: "shirts", labelKey: "shirts" },
+    { slug: "hoodie", labelKey: "hoodie" },
+    { slug: "jeans", labelKey: "jeans" },
   ];
 
   return (
