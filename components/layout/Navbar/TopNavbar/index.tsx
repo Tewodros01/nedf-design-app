@@ -17,7 +17,8 @@ import { useAppDispatch, useAppSelector } from "@/lib/hooks/redux";
 import { signOut } from "@/lib/features/auth/authSlice";
 import { RootState } from "@/lib/store";
 import { useLanguage } from "@/lib/LanguageContext";
-import { LogOut, User, ChevronDown } from "lucide-react";
+import { createClient } from "@/utils/supabase/client";
+import { LogOut, User, ChevronDown, Shield } from "lucide-react";
 
 const TopNavbar = () => {
   const dispatch = useAppDispatch();
@@ -239,8 +240,20 @@ const TopNavbar = () => {
                         <User size={14} />
                         {t("profile")}
                       </Link>
+                      {user.role === "admin" && (
+                        <Link
+                          href="/admin"
+                          className="flex items-center gap-2 px-4 py-2 text-sm text-black/60 hover:text-black hover:bg-gray-50 transition-colors"
+                          onClick={() => setShowUserMenu(false)}
+                        >
+                          <Shield size={14} />
+                          Admin Dashboard
+                        </Link>
+                      )}
                       <button
-                        onClick={() => {
+                        onClick={async () => {
+                          const supabase = createClient();
+                          await supabase.auth.signOut();
                           dispatch(signOut());
                           setShowUserMenu(false);
                         }}

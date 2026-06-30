@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { createClient } from "@/utils/supabase/client";
 import { useAppDispatch } from "@/lib/hooks/redux";
 import { signIn } from "@/lib/features/auth/authSlice";
 import { Button } from "@/components/ui/button";
@@ -32,18 +33,48 @@ export default function SignInPage() {
 
     setLoading(true);
 
-    // Simulate API call
-    setTimeout(() => {
-      dispatch(
-        signIn({
-          id: "1",
-          name: email.split("@")[0],
-          email,
-        })
-      );
+    try {
+      const supabase = createClient();
+      const { data, error: authError } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+
+      if (authError) {
+        setError(authError.message);
+        setLoading(false);
+        return;
+      }
+
+      if (data.user) {
+        // Fetch profile
+        const { data: profile } = await supabase
+          .from("profiles")
+          .select("name, email, role")
+          .eq("id", data.user.id)
+          .single();
+
+        dispatch(
+          signIn({
+            id: data.user.id,
+            name: profile?.name || email.split("@")[0],
+            email: data.user.email || email,
+            role: profile?.role || "customer",
+          })
+        );
+
+        // Redirect to admin if admin role
+        if (profile?.role === "admin") {
+          router.push("/admin");
+        } else {
+          router.push("/");
+        }
+      }
+    } catch {
+      setError("An unexpected error occurred. Please try again.");
+    } finally {
       setLoading(false);
-      router.push("/");
-    }, 800);
+    }
   };
 
   return (

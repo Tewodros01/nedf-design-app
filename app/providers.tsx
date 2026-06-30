@@ -6,6 +6,7 @@ import { makeStore } from "../lib/store";
 import { PersistGate } from "redux-persist/integration/react";
 import SpinnerbLoader from "@/components/ui/SpinnerbLoader";
 import { LanguageProvider } from "@/lib/LanguageContext";
+import SupabaseSessionListener from "@/components/auth/SupabaseSessionListener";
 
 type Props = {
   children: React.ReactNode;
@@ -24,9 +25,11 @@ const Providers = ({ children }: Props) => {
         }
         persistor={persistor}
       >
-        <LanguageProvider>
-          {children}
-        </LanguageProvider>
+        <SupabaseSessionListener>
+          <LanguageProvider>
+            {children}
+          </LanguageProvider>
+        </SupabaseSessionListener>
       </PersistGate>
     </Provider>
   );

@@ -4,6 +4,7 @@ export type User = {
   id: string;
   name: string;
   email: string;
+  role?: "customer" | "admin";
 };
 
 interface AuthState {
@@ -32,8 +33,12 @@ export const authSlice = createSlice({
       state.user = null;
       state.isAuthenticated = false;
     },
+    restoreSession: (state, action: PayloadAction<User>) => {
+      state.user = action.payload;
+      state.isAuthenticated = true;
+    },
   },
 });
 
-export const { signIn, signUp, signOut } = authSlice.actions;
+export const { signIn, signUp, signOut, restoreSession } = authSlice.actions;
 export default authSlice.reducer;

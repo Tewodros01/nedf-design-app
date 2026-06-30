@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { createClient } from "@/utils/supabase/client";
 import { useAppDispatch } from "@/lib/hooks/redux";
 import { signUp } from "@/lib/features/auth/authSlice";
 import { Button } from "@/components/ui/button";
@@ -38,18 +39,54 @@ export default function SignUpPage() {
 
     setLoading(true);
 
-    // Simulate API call
-    setTimeout(() => {
-      dispatch(
-        signUp({
-          id: Date.now().toString(),
-          name,
-          email,
-        })
-      );
+    try {
+      const supabase = createClient();
+      const { data, error: authError } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          data: {
+            name,
+          },
+        },
+      });
+
+      if (authError) {
+        setError(authError.message);
+        setLoading(false);
+        return;
+      }
+
+      if (data.user) {
+        // The profile is created automatically by the database trigger
+        // But we wait a moment for the trigger to complete
+        setTimeout(async () => {
+          const { data: profile } = await supabase
+            .from("profiles")
+            .select("name, email, role")
+            .eq("id", data.user!.id)
+            .single();
+
+          dispatch(
+            signUp({
+              id: data.user!.id,
+              name: profile?.name || name,
+              email: data.user!.email || email,
+              role: profile?.role || "customer",
+            })
+          );
+
+          setLoading(false);
+          router.push("/");
+        }, 1000);
+        return;
+      }
+
       setLoading(false);
-      router.push("/");
-    }, 800);
+    } catch {
+      setError("An unexpected error occurred. Please try again.");
+      setLoading(false);
+    }
   };
 
   return (
