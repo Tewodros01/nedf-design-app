@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense, useMemo, useState } from "react";
+import { Suspense, useEffect, useMemo, useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import BreadcrumbShop from "@/components/shop-page/BreadcrumbShop";
 import ProductCard from "@/components/common/ProductCard";
@@ -23,41 +23,43 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Loader2, SlidersHorizontal } from "lucide-react";
-import { newArrivalsData, relatedProductData, topSellingData } from "@/lib/data";
+import { fetchAllProductsClient } from "@/lib/supabase-queries";
 import { cn } from "@/lib/utils";
 import { useLanguage } from "@/lib/LanguageContext";
+import type { Product } from "@/types/product.types";
 
 const ITEMS_PER_PAGE = 6;
 
-const allProducts = [
-  ...newArrivalsData,
-  ...topSellingData,
-  ...relatedProductData,
+const categoriesData = [
+  { title: "New Arrivals", slug: "new-arrivals" },
+  { title: "Men", slug: "men" },
+  { title: "Women", slug: "women" },
+  { title: "Kids", slug: "kids" },
+  { title: "T-shirts", slug: "t-shirts" },
+  { title: "Shorts", slug: "shorts" },
+  { title: "Shirts", slug: "shirts" },
+  { title: "Hoodie", slug: "hoodie" },
+  { title: "Jeans", slug: "jeans" },
 ];
 
-// Remove duplicates by id
-const uniqueProducts = allProducts.filter(
-  (product, index, self) => index === self.findIndex((p) => p.id === product.id)
-);
+const dressStylesData = [
+  { title: "Casual", slug: "casual" },
+  { title: "Formal", slug: "formal" },
+  { title: "Party", slug: "party" },
+  { title: "Gym", slug: "gym" },
+];
 
-// Category mapping
-const categoryMap: Record<string, string[]> = {
-  "t-shirts": ["T-shirt with Tape Details", "Sleeve Striped T-shirt", "Courage Graphic T-shirt", "Black Striped T-shirt", "Gradient Graphic T-shirt"],
-  shorts: ["Loose Fit Bermuda Shorts"],
-  shirts: ["Chechered Shirt", "Vertical Striped Shirt"],
-  hoodie: [],
-  jeans: ["Skinny Fit Jeans", "Faded Skinny Jeans"],
-  "new-arrivals": ["T-shirt with Tape Details", "Skinny Fit Jeans", "Chechered Shirt", "Sleeve Striped T-shirt"],
-  men: ["Vertical Striped Shirt", "Courage Graphic T-shirt", "Loose Fit Bermuda Shorts", "Faded Skinny Jeans"],
-  women: ["T-shirt with Tape Details", "Sleeve Striped T-shirt", "Polo with Contrast Trims", "Gradient Graphic T-shirt"],
-  kids: ["Skinny Fit Jeans", "Chechered Shirt", "Black Striped T-shirt"],
-};
-
-const styleMap: Record<string, string[]> = {
-  casual: ["T-shirt with Tape Details", "Loose Fit Bermuda Shorts", "Sleeve Striped T-shirt"],
-  formal: ["Vertical Striped Shirt", "Chechered Shirt", "Polo with Contrast Trims", "Polo with Tipping Details"],
-  party: ["Gradient Graphic T-shirt", "Black Striped T-shirt"],
-  gym: ["Courage Graphic T-shirt", "Skinny Fit Jeans"],
+// Map category slugs to tag-based or flag-based filters
+const categoryFilterMap: Record<string, (p: Product) => boolean> = {
+  "new-arrivals": (p) => p.title.toLowerCase().includes("t-shirt") || p.title.toLowerCase().includes("jeans") || p.title.toLowerCase().includes("shirt"),
+  men: () => true,
+  women: () => true,
+  kids: () => true,
+  "t-shirts": (p) => p.title.toLowerCase().includes("t-shirt"),
+  shorts: (p) => p.title.toLowerCase().includes("shorts"),
+  shirts: (p) => p.title.toLowerCase().includes("shirt") && !p.title.toLowerCase().includes("t-shirt"),
+  hoodie: () => false,
+  jeans: (p) => p.title.toLowerCase().includes("jeans"),
 };
 
 function ShopContent() {
@@ -71,9 +73,25 @@ function ShopContent() {
   const sortBy = searchParams.get("sort") || "most-popular";
   const activeFilter = activeCategory || activeStyle;
 
+  const [allProducts, setAllProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
   const [priceRange, setPriceRange] = useState<[number, number]>([0, 250]);
   const [selectedSizes, setSelectedSizes] = useState<string[]>([]);
   const [selectedColors, setSelectedColors] = useState<string[]>([]);
+
+  // Fetch all products from Supabase on mount
+  useEffect(() => {
+    const loadProducts = async () => {
+      const products = await fetchAllProductsClient();
+      // Remove duplicates by id
+      const unique = products.filter(
+        (p, i, self) => i === self.findIndex((x) => x.id === p.id)
+      );
+      setAllProducts(unique);
+      setLoading(false);
+    };
+    loadProducts();
+  }, []);
 
   const SORT_OPTIONS = [
     { value: "most-popular", label: t("mostPopular") },
@@ -81,32 +99,46 @@ function ShopContent() {
     { value: "high-price", label: t("highPrice") },
   ] as const;
 
+// Map style slugs to title-based filters
+const styleFilterMap: Record<string, (p: Product) => boolean> = {
+  casual: (p) =>
+    ["T-shirt with Tape Details", "Loose Fit Bermuda Shorts", "Sleeve Striped T-shirt"].includes(p.title),
+  formal: (p) =>
+    [
+      "Vertical Striped Shirt",
+      "Chechered Shirt",
+      "Polo with Contrast Trims",
+      "Polo with Tipping Details",
+    ].includes(p.title),
+  party: (p) =>
+    ["Gradient Graphic T-shirt", "Black Striped T-shirt"].includes(p.title),
+  gym: (p) =>
+    ["Courage Graphic T-shirt", "Skinny Fit Jeans"].includes(p.title),
+};
+
   const filteredProducts = useMemo(() => {
-    let products = [...uniqueProducts];
+    let products = [...allProducts];
 
     // Filter by category
-    if (activeCategory && categoryMap[activeCategory]) {
-      const allowed = categoryMap[activeCategory];
-      products = products.filter((p) => allowed.includes(p.title));
+    if (activeCategory && categoryFilterMap[activeCategory]) {
+      products = products.filter(categoryFilterMap[activeCategory]);
     }
 
-    // Filter by style
-    if (activeStyle && styleMap[activeStyle]) {
-      const allowed = styleMap[activeStyle];
-      products = products.filter((p) => allowed.includes(p.title));
+    // Filter by dress style
+    if (activeStyle && styleFilterMap[activeStyle]) {
+      products = products.filter(styleFilterMap[activeStyle]);
     }
 
     // Filter by price
-    products = products.filter(
-      (p) => {
-        const effectivePrice = p.discount.percentage > 0
+    products = products.filter((p) => {
+      const effectivePrice =
+        p.discount.percentage > 0
           ? Math.round(p.price - (p.price * p.discount.percentage) / 100)
           : p.discount.amount > 0
             ? p.price - p.discount.amount
             : p.price;
-        return effectivePrice >= priceRange[0] && effectivePrice <= priceRange[1];
-      }
-    );
+      return effectivePrice >= priceRange[0] && effectivePrice <= priceRange[1];
+    });
 
     // Sort
     switch (sortBy) {
@@ -123,7 +155,21 @@ function ShopContent() {
     }
 
     return products;
-  }, [activeCategory, activeStyle, sortBy, priceRange, selectedSizes, selectedColors]);
+  }, [activeCategory, activeStyle, allProducts, sortBy, priceRange]);
+
+  if (loading) {
+    return (
+      <main className="pb-20">
+        <div className="max-w-frame mx-auto px-4 xl:px-0">
+          <hr className="h-[1px] border-t-black/10 mb-5 sm:mb-6" />
+          <BreadcrumbShop />
+          <div className="flex items-center justify-center py-20">
+            <Loader2 className="w-8 h-8 animate-spin text-black/40" />
+          </div>
+        </div>
+      </main>
+    );
+  }
 
   const totalPages = Math.max(1, Math.ceil(filteredProducts.length / ITEMS_PER_PAGE));
   const safePage = Math.min(currentPage, totalPages);
@@ -200,7 +246,7 @@ function ShopContent() {
       <div className="max-w-frame mx-auto px-4 xl:px-0">
         <hr className="h-[1px] border-t-black/10 mb-5 sm:mb-6" />
         <BreadcrumbShop />
-        <div className="flex flex-col md:flex-row md:space-x-5 items-start">
+        <div className="flex flex-col mx-10 md:flex-row md:space-x-5 items-start">
           {/* Sidebar Filters - Desktop */}
           <div className="hidden md:block w-full md:min-w-[290px] lg:min-w-[300px] md:max-w-[260px] border border-black/10 rounded-[20px] px-4 md:px-5 py-4 space-y-4 md:space-y-5">
             <div className="flex items-center justify-between">
@@ -386,22 +432,3 @@ export default function ShopPage() {
     </Suspense>
   );
 }
-
-const categoriesData = [
-  { title: "New Arrivals", slug: "new-arrivals" },
-  { title: "Men", slug: "men" },
-  { title: "Women", slug: "women" },
-  { title: "Kids", slug: "kids" },
-  { title: "T-shirts", slug: "t-shirts" },
-  { title: "Shorts", slug: "shorts" },
-  { title: "Shirts", slug: "shirts" },
-  { title: "Hoodie", slug: "hoodie" },
-  { title: "Jeans", slug: "jeans" },
-];
-
-const dressStylesData = [
-  { title: "Casual", slug: "casual" },
-  { title: "Formal", slug: "formal" },
-  { title: "Party", slug: "party" },
-  { title: "Gym", slug: "gym" },
-];

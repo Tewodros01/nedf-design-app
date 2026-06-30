@@ -13,7 +13,7 @@ type TabBtn = {
   labelKey: string;
 };
 
-const Tabs = () => {
+const Tabs = ({ productId }: { productId?: number }) => {
   const [active, setActive] = useState<number>(1);
   const { t } = useLanguage();
 
@@ -54,7 +54,7 @@ const Tabs = () => {
       </div>
       <div className="mb-12 sm:mb-16">
         {active === 1 && <ProductDetailsContent />}
-        {active === 2 && <ReviewsContent />}
+        {active === 2 && <ReviewsContent productId={productId} />}
         {active === 3 && <FaqContent />}
       </div>
     </div>

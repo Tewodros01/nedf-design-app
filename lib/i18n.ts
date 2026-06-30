@@ -102,6 +102,11 @@ const translations: Record<Language, Record<string, string>> = {
     "hidePassword": "Hide password",
     "noAccount": "Don't have an account?",
     "hasAccount": "Already have an account?",
+    "verificationTitle": "Check Your Email",
+    "verificationMessage": "We've sent a verification email to {email}. Please check your inbox and click the verification link to activate your account.",
+    "verificationResend": "Resend verification email",
+    "verificationResent": "Verification email resent!",
+    "verificationSkip": "Continue to sign in",
 
     // Homepage
     "craftingImagination": "CRAFTING\nYOUR IMAGINATION",
@@ -309,6 +314,11 @@ const translations: Record<Language, Record<string, string>> = {
     "hidePassword": "የይለፍ ቃል ደብቅ",
     "noAccount": "መለያ የለዎትም?",
     "hasAccount": "መለያ አለዎት?",
+    "verificationTitle": "ኢሜይልዎን ያረጋግጡ",
+    "verificationMessage": "የማረጋገጫ ኢሜይል ወደ {email} ልከናል። እባክዎ የኢሜይል መልእክት ሳጥንዎን ይፈትሹ እና መለያዎን ለማግበር የማረጋገጫ አገናኙን ጠቅ ያድርጉ።",
+    "verificationResend": "የማረጋገጫ ኢሜይል እንደገና ይላኩ",
+    "verificationResent": "የማረጋገጫ ኢሜይል እንደገና ተልኳል!",
+    "verificationSkip": "ወደ መግቢያ ይቀጥሉ",
 
     // Homepage
     "craftingImagination": "ሀሳብዎን\nበእውነታ ይቀርጹ",

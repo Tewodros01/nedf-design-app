@@ -1,4 +1,3 @@
-import { collectionsData, newArrivalsData, topSellingData, relatedProductData } from "@/lib/data";
 import ProductCard from "@/components/common/ProductCard";
 import { integralCF } from "@/app/fonts";
 import { cn } from "@/lib/utils";
@@ -10,6 +9,7 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
+import { fetchCollectionBySlug, fetchAllProducts } from "@/lib/supabase-queries-server";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
@@ -20,25 +20,15 @@ export default async function CollectionPage({
 }) {
   const { slug } = await params;
 
-  const collection = collectionsData.find(
-    (c) => c.viewAllLink.split("/").pop() === slug
-  );
+  // Fetch collection from Supabase
+  const collection = await fetchCollectionBySlug(slug);
 
   if (!collection) {
     notFound();
   }
 
-  const allProducts = [
-    ...newArrivalsData,
-    ...topSellingData,
-    ...relatedProductData,
-  ];
-
-  // Remove duplicates by id
-  const uniqueProducts = allProducts.filter(
-    (product, index, self) =>
-      index === self.findIndex((p) => p.id === product.id)
-  );
+  // Fetch all products from Supabase
+  const allProducts = await fetchAllProducts();
 
   return (
     <main className="pb-20">
@@ -74,7 +64,7 @@ export default async function CollectionPage({
         </div>
 
         <div className="w-full grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4 lg:gap-5">
-          {uniqueProducts.map((product) => (
+          {allProducts.map((product) => (
             <ProductCard key={product.id} data={product} />
           ))}
         </div>

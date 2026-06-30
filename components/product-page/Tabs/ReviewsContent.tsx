@@ -1,6 +1,6 @@
 "use client";
 
-import { reviewsData } from "@/lib/data";
+import { useEffect, useState } from "react";
 import ReviewCard from "@/components/common/ReviewCard";
 import { Button } from "@/components/ui/button";
 import {
@@ -10,11 +10,29 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import Link from "next/link";
+import { fetchReviewsByProductClient } from "@/lib/supabase-queries";
 import { useLanguage } from "@/lib/LanguageContext";
+import { Loader2 } from "lucide-react";
+import Link from "next/link";
+import type { Review } from "@/types/review.types";
 
-const ReviewsContent = () => {
+const ReviewsContent = ({ productId }: { productId?: number }) => {
   const { t } = useLanguage();
+  const [reviews, setReviews] = useState<Review[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (!productId) {
+      setLoading(false);
+      return;
+    }
+    const loadReviews = async () => {
+      const data = await fetchReviewsByProductClient(productId);
+      setReviews(data);
+      setLoading(false);
+    };
+    loadReviews();
+  }, [productId]);
 
   return (
     <section>
@@ -23,7 +41,9 @@ const ReviewsContent = () => {
           <h3 className="text-xl sm:text-2xl font-bold text-black mr-2">
             {t("allReviews")}
           </h3>
-          <span className="text-sm sm:text-base text-black/60">(451)</span>
+          <span className="text-sm sm:text-base text-black/60">
+            ({reviews.length})
+          </span>
         </div>
         <div className="flex items-center space-x-2.5">
           <Select defaultValue="latest">
@@ -45,11 +65,21 @@ const ReviewsContent = () => {
           </Button>
         </div>
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-5 sm:mb-9">
-        {reviewsData.map((review) => (
-          <ReviewCard key={review.id} data={review} isAction isDate />
-        ))}
-      </div>
+      {loading ? (
+        <div className="flex items-center justify-center py-12">
+          <Loader2 className="w-8 h-8 animate-spin text-black/40" />
+        </div>
+      ) : reviews.length === 0 ? (
+        <div className="text-center py-12 text-black/40">
+          <p className="text-sm">No reviews yet. Be the first to review!</p>
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-5 sm:mb-9">
+          {reviews.map((review) => (
+            <ReviewCard key={review.id} data={review} isAction isDate />
+          ))}
+        </div>
+      )}
       <div className="w-full px-4 sm:px-0 text-center">
         <Link
           href="#"

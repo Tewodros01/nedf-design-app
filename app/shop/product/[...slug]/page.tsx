@@ -1,20 +1,9 @@
-import {
-  newArrivalsData,
-  relatedProductData,
-  topSellingData,
-} from "@/lib/data";
 import ProductListSec from "@/components/common/ProductListSec";
 import BreadcrumbProduct from "@/components/product-page/BreadcrumbProduct";
 import Header from "@/components/product-page/Header";
 import Tabs from "@/components/product-page/Tabs";
-import { Product } from "@/types/product.types";
+import { fetchProductById, fetchAllProducts } from "@/lib/supabase-queries-server";
 import { notFound } from "next/navigation";
-
-const data: Product[] = [
-  ...newArrivalsData,
-  ...topSellingData,
-  ...relatedProductData,
-];
 
 export default async function ProductPage({
   params,
@@ -27,13 +16,21 @@ export default async function ProductPage({
     notFound();
   }
 
-  const productData = data.find(
-    (product) => product.id === Number(slug[0])
-  );
+  const productId = Number(slug[0]);
+  if (isNaN(productId)) {
+    notFound();
+  }
+
+  // Fetch product from Supabase
+  const productData = await fetchProductById(productId);
 
   if (!productData?.title) {
     notFound();
   }
+
+  // Fetch related products (exclude current product)
+  const allProducts = await fetchAllProducts();
+  const relatedProducts = allProducts.filter((p) => p.id !== productId).slice(0, 4);
 
   return (
     <main>
@@ -43,10 +40,10 @@ export default async function ProductPage({
         <section className="mb-11">
           <Header data={productData} />
         </section>
-        <Tabs />
+        <Tabs productId={productId} />
       </div>
       <div className="mb-[50px] sm:mb-20">
-        <ProductListSec title="You might also like" data={relatedProductData} />
+        <ProductListSec title="You might also like" data={relatedProducts} />
       </div>
     </main>
   );
