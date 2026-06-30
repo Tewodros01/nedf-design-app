@@ -8,6 +8,7 @@ import { useAppDispatch, useAppSelector } from "@/lib/hooks/redux";
 import { RootState } from "@/lib/store";
 import { cn } from "@/lib/utils";
 import { IoMdCheckmark } from "react-icons/io";
+import { useLanguage } from "@/lib/LanguageContext";
 
 const colorsData: Color[] = [
   {
@@ -29,11 +30,12 @@ const ColorSelection = () => {
     (state: RootState) => state.products
   );
   const dispatch = useAppDispatch();
+  const { t } = useLanguage();
 
   return (
     <div className="flex flex-col">
       <span className="text-sm sm:text-base text-black/60 mb-4">
-        Select Colors
+        {t("selectColors")}
       </span>
       <div className="flex items-center flex-wrap space-x-3 sm:space-x-4">
         {colorsData.map((color, index) => (

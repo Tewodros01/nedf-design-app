@@ -6,29 +6,31 @@ import { useState } from "react";
 import FaqContent from "./FaqContent";
 import ProductDetailsContent from "./ProductDetailsContent";
 import ReviewsContent from "./ReviewsContent";
+import { useLanguage } from "@/lib/LanguageContext";
 
 type TabBtn = {
   id: number;
-  label: string;
+  labelKey: string;
 };
-
-const tabBtnData: TabBtn[] = [
-  {
-    id: 1,
-    label: "Product Details",
-  },
-  {
-    id: 2,
-    label: "Rating & Reviews",
-  },
-  {
-    id: 3,
-    label: "FAQs",
-  },
-];
 
 const Tabs = () => {
   const [active, setActive] = useState<number>(1);
+  const { t } = useLanguage();
+
+  const tabBtnData: TabBtn[] = [
+    {
+      id: 1,
+      labelKey: "productDetails",
+    },
+    {
+      id: 2,
+      labelKey: "ratingAndReviews",
+    },
+    {
+      id: 3,
+      labelKey: "faq",
+    },
+  ];
 
   return (
     <div>
@@ -46,7 +48,7 @@ const Tabs = () => {
             ])}
             onClick={() => setActive(tab.id)}
           >
-            {tab.label}
+            {t(tab.labelKey)}
           </Button>
         ))}
       </div>

@@ -4,20 +4,22 @@ import { setSizeSelection } from "@/lib/features/products/productsSlice";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks/redux";
 import { RootState } from "@/lib/store";
 import { cn } from "@/lib/utils";
+import { useLanguage } from "@/lib/LanguageContext";
 
 const SizeSelection = () => {
   const { sizeSelection } = useAppSelector(
     (state: RootState) => state.products
   );
   const dispatch = useAppDispatch();
+  const { t } = useLanguage();
 
   return (
     <div className="flex flex-col">
       <span className="text-sm sm:text-base text-black/60 mb-4">
-        Choose Size
+        {t("chooseSize")}
       </span>
       <div className="flex items-center flex-wrap lg:space-x-3">
-        {["Small", "Medium", "Large", "X-Large"].map((size, index) => (
+        {[t("small"), t("medium"), t("large"), t("xLarge")].map((size, index) => (
           <button
             key={index}
             type="button"

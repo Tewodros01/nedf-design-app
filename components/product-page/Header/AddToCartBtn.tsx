@@ -4,9 +4,11 @@ import { addToCart } from "@/lib/features/carts/cartsSlice";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks/redux";
 import { RootState } from "@/lib/store";
 import { Product } from "@/types/product.types";
+import { useLanguage } from "@/lib/LanguageContext";
 
 const AddToCartBtn = ({ data }: { data: Product & { quantity: number } }) => {
   const dispatch = useAppDispatch();
+  const { t } = useLanguage();
   const { sizeSelection, colorSelection } = useAppSelector(
     (state: RootState) => state.products
   );
@@ -29,7 +31,7 @@ const AddToCartBtn = ({ data }: { data: Product & { quantity: number } }) => {
         )
       }
     >
-      Add to Cart
+      {t("addToCart")}
     </button>
   );
 };

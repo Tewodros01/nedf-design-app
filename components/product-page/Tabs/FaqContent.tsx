@@ -1,9 +1,12 @@
+"use client";
+
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { useLanguage } from "@/lib/LanguageContext";
 
 type FaqItem = {
   question: string;
@@ -44,10 +47,12 @@ const faqsData: FaqItem[] = [
 ];
 
 const FaqContent = () => {
+  const { t } = useLanguage();
+
   return (
     <section>
       <h3 className="text-xl sm:text-2xl font-bold text-black mb-5 sm:mb-6">
-        Frequently asked questions
+        {t("frequentlyAskedQuestions")}
       </h3>
       <Accordion type="single" collapsible>
         {faqsData.map((faq, idx) => (

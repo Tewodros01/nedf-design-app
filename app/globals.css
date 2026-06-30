@@ -132,3 +132,8 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Page container - adds consistent left/right spacing */
+.page-container {
+  @apply max-w-frame mx-auto px-4 sm:px-6 lg:px-8;
+}

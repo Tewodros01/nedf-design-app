@@ -25,6 +25,7 @@ import {
 import { Loader2, SlidersHorizontal } from "lucide-react";
 import { newArrivalsData, relatedProductData, topSellingData } from "@/lib/data";
 import { cn } from "@/lib/utils";
+import { useLanguage } from "@/lib/LanguageContext";
 
 const ITEMS_PER_PAGE = 6;
 
@@ -46,6 +47,10 @@ const categoryMap: Record<string, string[]> = {
   shirts: ["Chechered Shirt", "Vertical Striped Shirt"],
   hoodie: [],
   jeans: ["Skinny Fit Jeans", "Faded Skinny Jeans"],
+  "new-arrivals": ["T-shirt with Tape Details", "Skinny Fit Jeans", "Chechered Shirt", "Sleeve Striped T-shirt"],
+  men: ["Vertical Striped Shirt", "Courage Graphic T-shirt", "Loose Fit Bermuda Shorts", "Faded Skinny Jeans"],
+  women: ["T-shirt with Tape Details", "Sleeve Striped T-shirt", "Polo with Contrast Trims", "Gradient Graphic T-shirt"],
+  kids: ["Skinny Fit Jeans", "Chechered Shirt", "Black Striped T-shirt"],
 };
 
 const styleMap: Record<string, string[]> = {
@@ -55,15 +60,10 @@ const styleMap: Record<string, string[]> = {
   gym: ["Courage Graphic T-shirt", "Skinny Fit Jeans"],
 };
 
-const SORT_OPTIONS = [
-  { value: "most-popular", label: "Most Popular" },
-  { value: "low-price", label: "Low Price" },
-  { value: "high-price", label: "High Price" },
-] as const;
-
 function ShopContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const { t } = useLanguage();
 
   const activeCategory = searchParams.get("category") || "";
   const activeStyle = searchParams.get("style") || "";
@@ -74,6 +74,12 @@ function ShopContent() {
   const [priceRange, setPriceRange] = useState<[number, number]>([0, 250]);
   const [selectedSizes, setSelectedSizes] = useState<string[]>([]);
   const [selectedColors, setSelectedColors] = useState<string[]>([]);
+
+  const SORT_OPTIONS = [
+    { value: "most-popular", label: t("mostPopular") },
+    { value: "low-price", label: t("lowPrice") },
+    { value: "high-price", label: t("highPrice") },
+  ] as const;
 
   const filteredProducts = useMemo(() => {
     let products = [...uniqueProducts];
@@ -101,11 +107,6 @@ function ShopContent() {
         return effectivePrice >= priceRange[0] && effectivePrice <= priceRange[1];
       }
     );
-
-    // Filter by sizes (if implemented)
-    if (selectedSizes.length > 0) {
-      // Size filtering would require products to have size data
-    }
 
     // Sort
     switch (sortBy) {
@@ -168,10 +169,10 @@ function ShopContent() {
   };
 
   const headerTitle = activeCategory
-    ? categoriesData.find((c) => c.slug.includes(activeCategory))?.title || "Shop"
+    ? categoriesData.find((c) => c.slug.includes(activeCategory))?.title || t("shop")
     : activeStyle
-      ? dressStylesData.find((s) => s.slug.includes(activeStyle))?.title || "Shop"
-      : "All Products";
+      ? dressStylesData.find((s) => s.slug.includes(activeStyle))?.title || t("shop")
+      : t("allProducts");
 
   // Generate pagination items
   const getPageNumbers = () => {
@@ -203,7 +204,7 @@ function ShopContent() {
           {/* Sidebar Filters - Desktop */}
           <div className="hidden md:block w-full md:min-w-[240px] lg:min-w-[260px] md:max-w-[260px] border border-black/10 rounded-[20px] px-4 md:px-5 py-4 space-y-4 md:space-y-5">
             <div className="flex items-center justify-between">
-              <span className="font-bold text-black text-xl">Filters</span>
+              <span className="font-bold text-black text-xl">{t("filters")}</span>
               <SlidersHorizontal className="text-2xl text-black/40" />
             </div>
             <Filters
@@ -241,10 +242,10 @@ function ShopContent() {
               </div>
               <div className="flex flex-col xs:flex-row xs:items-center gap-2 xs:gap-0">
                 <span className="text-xs sm:text-sm md:text-base text-black/60 mr-0 xs:mr-3">
-                  Showing {startItem}-{endItem} of {filteredProducts.length} Products
+                  {t("showing")} {startItem}-{endItem} {t("of")} {filteredProducts.length} {t("products")}
                 </span>
                 <div className="flex items-center">
-                  Sort by:{" "}
+                  {t("sortBy")}:{" "}
                   <Select value={sortBy} onValueChange={handleSortChange}>
                     <SelectTrigger className="font-medium text-xs sm:text-sm px-1 sm:px-1.5 md:text-base w-fit text-black bg-transparent shadow-none border-none">
                       <SelectValue />
@@ -264,11 +265,11 @@ function ShopContent() {
             {/* Active Filter Tags */}
             {activeFilter && (
               <div className="flex items-center gap-2 flex-wrap">
-                <span className="text-xs sm:text-sm text-black/60">Active filters:</span>
+                <span className="text-xs sm:text-sm text-black/60">{t("activeFilters")}</span>
                 {activeCategory && (
                   <span className="inline-flex items-center gap-1 px-3 py-1 bg-black/5 rounded-full text-xs sm:text-sm">
                     {categoriesData.find((c) => c.slug.includes(activeCategory))?.title}
-                    <button onClick={clearFilters} className="ml-1 hover:text-black" aria-label="Remove filter">
+                    <button onClick={clearFilters} className="ml-1 hover:text-black" aria-label={t("removeFilter")}>
                       ×
                     </button>
                   </span>
@@ -276,7 +277,7 @@ function ShopContent() {
                 {activeStyle && (
                   <span className="inline-flex items-center gap-1 px-3 py-1 bg-black/5 rounded-full text-xs sm:text-sm">
                     {dressStylesData.find((s) => s.slug.includes(activeStyle))?.title}
-                    <button onClick={clearFilters} className="ml-1 hover:text-black" aria-label="Remove filter">
+                    <button onClick={clearFilters} className="ml-1 hover:text-black" aria-label={t("removeFilter")}>
                       ×
                     </button>
                   </span>
@@ -285,7 +286,7 @@ function ShopContent() {
                   onClick={clearFilters}
                   className="text-xs sm:text-sm text-black/40 hover:text-black underline ml-2"
                 >
-                  Clear all
+                  {t("clearAll")}
                 </button>
               </div>
             )}
@@ -299,13 +300,13 @@ function ShopContent() {
               </div>
             ) : (
               <div className="text-center py-16 text-black/40">
-                <p className="text-lg mb-2">No products found</p>
-                <p className="text-sm">Try adjusting your filters</p>
+                <p className="text-lg mb-2">{t("noProducts")}</p>
+                <p className="text-sm">{t("tryAdjusting")}</p>
                 <button
                   onClick={clearFilters}
                   className="mt-4 px-6 py-2 bg-black text-white rounded-full text-sm"
                 >
-                  Clear all filters
+                  {t("clearAllFilters")}
                 </button>
               </div>
             )}
@@ -387,6 +388,10 @@ export default function ShopPage() {
 }
 
 const categoriesData = [
+  { title: "New Arrivals", slug: "new-arrivals" },
+  { title: "Men", slug: "men" },
+  { title: "Women", slug: "women" },
+  { title: "Kids", slug: "kids" },
   { title: "T-shirts", slug: "t-shirts" },
   { title: "Shorts", slug: "shorts" },
   { title: "Shirts", slug: "shirts" },

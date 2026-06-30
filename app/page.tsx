@@ -16,7 +16,7 @@ export default function Home() {
       <main className="my-[50px] sm:my-[72px]">
         <ProductGridList
           data={newArrivalsData}
-          viewAllLink="/shop#new-arrivals"
+          viewAllLink="/shop?category=new-arrivals"
         />
         <CollectionList
           title="Collection List"

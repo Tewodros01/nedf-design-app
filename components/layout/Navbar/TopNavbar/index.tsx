@@ -1,77 +1,92 @@
+"use client";
+
 import {
   NavigationMenu,
   NavigationMenuList,
 } from "@/components/ui/navigation-menu";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
-import { HiChevronDown, HiOutlineHeart } from "react-icons/hi2";
+import React, { useState } from "react";
+import { HiOutlineHeart } from "react-icons/hi2";
 import { NavMenu } from "../navbar.types";
 import CartBtn from "./CartBtn";
 import { MenuItem } from "./MenuItem";
 import { MenuList } from "./MenuList";
 import ResTopNavbar from "./ResTopNavbar";
-
-const data: NavMenu = [
-  {
-    id: 1,
-    type: "MenuItem",
-    label: "HOME",
-    url: "/",
-    children: [],
-  },
-  {
-    id: 2,
-    label: "PRODUCTS",
-    type: "MenuList",
-    children: [
-      {
-        id: 21,
-        label: "Men's clothes",
-        url: "/shop#men-clothes",
-        description: "In attractive and spectacular colors and designs",
-      },
-      {
-        id: 22,
-        label: "Women's clothes",
-        url: "/shop#women-clothes",
-        description: "Ladies, your style and tastes are important to us",
-      },
-      {
-        id: 23,
-        label: "Kids clothes",
-        url: "/shop#kids-clothes",
-        description: "For all ages, with happy and beautiful colors",
-      },
-    ],
-  },
-  {
-    id: 3,
-    type: "MenuItem",
-    label: "ACCESSORIES",
-    url: "/accessories",
-    children: [],
-  },
-  {
-    id: 4,
-    type: "MenuItem",
-    label: "ABOUT US",
-    url: "/about",
-    children: [],
-  },
-  {
-    id: 5,
-    type: "MenuItem",
-    label: "CONTACT",
-    url: "/contact",
-    children: [],
-  },
-];
+import { useAppDispatch, useAppSelector } from "@/lib/hooks/redux";
+import { signOut } from "@/lib/features/auth/authSlice";
+import { RootState } from "@/lib/store";
+import { useLanguage } from "@/lib/LanguageContext";
+import { LogOut, User, ChevronDown } from "lucide-react";
 
 const TopNavbar = () => {
+  const dispatch = useAppDispatch();
+  const { user, isAuthenticated } = useAppSelector(
+    (state: RootState) => state.auth
+  );
+  const { lang, t, setLang, getLabel } = useLanguage();
+  const [showUserMenu, setShowUserMenu] = useState(false);
+  const [showLangMenu, setShowLangMenu] = useState(false);
+
+  const data: NavMenu = [
+    {
+      id: 1,
+      type: "MenuItem",
+      label: t("home").toUpperCase(),
+      url: "/",
+      children: [],
+    },
+    {
+      id: 2,
+      label: t("products").toUpperCase(),
+      type: "MenuList",
+      children: [
+        {
+          id: 21,
+          label: t("men"),
+          url: "/shop?category=men",
+          description: t("menDesc"),
+        },
+        {
+          id: 22,
+          label: t("women"),
+          url: "/shop?category=women",
+          description: t("womenDesc"),
+        },
+        {
+          id: 23,
+          label: t("kids"),
+          url: "/shop?category=kids",
+          description: t("kidsDesc"),
+        },
+      ],
+    },
+    {
+      id: 3,
+      type: "MenuItem",
+      label: t("accessories").toUpperCase(),
+      url: "/accessories",
+      children: [],
+    },
+    {
+      id: 4,
+      type: "MenuItem",
+      label: t("about").toUpperCase(),
+      url: "/about",
+      children: [],
+    },
+    {
+      id: 5,
+      type: "MenuItem",
+      label: t("contact").toUpperCase(),
+      url: "/contact",
+      children: [],
+    },
+  ];
+
   return (
     <nav className="sticky top-0 bg-white z-20">
-      <div className="max-w-7xl mx-auto px-6 py-3">
+      <div className="max-w-frame mx-auto px-4 sm:px-6 py-3">
         <div className="flex items-center justify-between">
           {/* Left Navigation */}
           <NavigationMenu className="hidden lg:flex">
@@ -108,9 +123,9 @@ const TopNavbar = () => {
           </div>
 
           {/* Right Icons */}
-          <div className="flex items-center space-x-3 ml-auto">
+          <div className="flex items-center space-x-2 sm:space-x-3 ml-auto">
             {/* Search Input */}
-            <div className="hidden md:flex items-center bg-gray-50 rounded-md px-3 py-1.5 w-48">
+            <div className="hidden md:flex items-center bg-gray-50 rounded-md px-3 py-1.5 w-36 lg:w-48">
               <Image
                 priority
                 src="/icons/search.svg"
@@ -121,7 +136,7 @@ const TopNavbar = () => {
               />
               <input
                 type="search"
-                placeholder="Search"
+                placeholder={t("search")}
                 className="bg-transparent text-sm placeholder:text-gray-400 outline-none flex-1"
               />
             </div>
@@ -138,9 +153,48 @@ const TopNavbar = () => {
             </Link>
 
             {/* Language Selector */}
-            <div className="flex items-center space-x-1 cursor-pointer">
-              <span className="text-sm text-gray-700">EN</span>
-              <HiChevronDown className="w-3 h-3 text-gray-500" />
+            <div className="relative">
+              <button
+                onClick={() => setShowLangMenu(!showLangMenu)}
+                className="flex items-center space-x-1 cursor-pointer px-2 py-1 rounded-md hover:bg-gray-50 transition-colors"
+              >
+                <span className="text-xs sm:text-sm text-gray-700 font-medium">
+                  {getLabel()}
+                </span>
+                <ChevronDown size={12} className="text-gray-500" />
+              </button>
+              {showLangMenu && (
+                <>
+                  <div
+                    className="fixed inset-0 z-10"
+                    onClick={() => setShowLangMenu(false)}
+                  />
+                  <div className="absolute right-0 top-full mt-1 z-20 bg-white border border-black/10 rounded-lg shadow-lg py-1 min-w-[120px]">
+                    <button
+                      onClick={() => {
+                        setLang("en");
+                        setShowLangMenu(false);
+                      }}
+                      className={`w-full text-left px-4 py-2 text-sm hover:bg-gray-50 transition-colors ${
+                        lang === "en" ? "font-medium text-black" : "text-black/60"
+                      }`}
+                    >
+                      {t("english")}
+                    </button>
+                    <button
+                      onClick={() => {
+                        setLang("am");
+                        setShowLangMenu(false);
+                      }}
+                      className={`w-full text-left px-4 py-2 text-sm hover:bg-gray-50 transition-colors ${
+                        lang === "am" ? "font-medium text-black" : "text-black/60"
+                      }`}
+                    >
+                      {t("amharic")}
+                    </button>
+                  </div>
+                </>
+              )}
             </div>
 
             {/* Wishlist */}
@@ -151,16 +205,65 @@ const TopNavbar = () => {
             {/* Cart */}
             <CartBtn />
 
-            {/* User */}
-            <Link href="/#signin">
-              <Image
-                priority
-                src="/icons/user.svg"
-                height={18}
-                width={18}
-                alt="user"
-              />
-            </Link>
+            {/* User / Auth */}
+            {isAuthenticated && user ? (
+              <div className="relative">
+                <button
+                  onClick={() => setShowUserMenu(!showUserMenu)}
+                  className="flex items-center space-x-1 p-1.5 rounded-full hover:bg-gray-50 transition-colors"
+                >
+                  <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-black text-white flex items-center justify-center text-xs sm:text-sm font-medium">
+                    {user.name.charAt(0).toUpperCase()}
+                  </div>
+                </button>
+                {showUserMenu && (
+                  <>
+                    <div
+                      className="fixed inset-0 z-10"
+                      onClick={() => setShowUserMenu(false)}
+                    />
+                    <div className="absolute right-0 top-full mt-1 z-20 bg-white border border-black/10 rounded-lg shadow-lg py-1 min-w-[160px]">
+                      <div className="px-4 py-2 border-b border-black/5">
+                        <p className="text-sm font-medium text-black truncate">
+                          {user.name}
+                        </p>
+                        <p className="text-xs text-black/40 truncate">
+                          {user.email}
+                        </p>
+                      </div>
+                      <Link
+                        href="/profile"
+                        className="flex items-center gap-2 px-4 py-2 text-sm text-black/60 hover:text-black hover:bg-gray-50 transition-colors"
+                        onClick={() => setShowUserMenu(false)}
+                      >
+                        <User size={14} />
+                        {t("profile")}
+                      </Link>
+                      <button
+                        onClick={() => {
+                          dispatch(signOut());
+                          setShowUserMenu(false);
+                        }}
+                        className="flex items-center gap-2 px-4 py-2 text-sm text-red-500 hover:bg-red-50 transition-colors w-full text-left"
+                      >
+                        <LogOut size={14} />
+                        {t("signout")}
+                      </button>
+                    </div>
+                  </>
+                )}
+              </div>
+            ) : (
+              <Link href="/signin">
+                <Image
+                  priority
+                  src="/icons/user.svg"
+                  height={18}
+                  width={18}
+                  alt="user"
+                />
+              </Link>
+            )}
           </div>
         </div>
       </div>
