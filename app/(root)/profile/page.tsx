@@ -158,7 +158,7 @@ export default function ProfilePage() {
   return (
     <>
       {/* Breadcrumb */}
-      <div className="max-w-frame mx-auto px-4 xl:px-0 pt-5 sm:pt-6">
+      <div className="max-w-frame mx-auto px-4 xl:px-8 pt-5 sm:pt-6">
         <hr className="h-[1px] border-t-black/10 mb-5 sm:mb-6" />
         <nav className="flex items-center text-sm text-black/60 mb-8">
           <Link href="/" className="hover:text-black">
@@ -170,7 +170,7 @@ export default function ProfilePage() {
       </div>
 
       <main className="pb-20">
-        <div className="max-w-frame mx-auto px-4 xl:px-0">
+        <div className="max-w-frame mx-auto px-4 xl:px-8">
           <div className="max-w-4xl mx-auto space-y-8">
             {/* Profile Header */}
             <div className="bg-[#F0F0F0] rounded-[20px] p-6 sm:p-8 lg:p-10">
@@ -399,3 +399,4 @@ export default function ProfilePage() {
     </>
   );
 }
+

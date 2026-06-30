@@ -31,7 +31,7 @@ export default function AboutPage() {
   return (
     <>
       {/* Breadcrumb */}
-      <div className="max-w-frame mx-auto px-4 xl:px-0 pt-5 sm:pt-6">
+      <div className="max-w-frame mx-auto px-4 xl:px-8 pt-5 sm:pt-6">
         <hr className="h-[1px] border-t-black/10 mb-5 sm:mb-6" />
         <nav className="flex items-center text-sm text-black/60 mb-8">
           <Link href="/" className="hover:text-black">{t("home")}</Link>
@@ -41,7 +41,7 @@ export default function AboutPage() {
       </div>
 
       <main className="pb-20">
-        <div className="max-w-frame mx-auto px-4 xl:px-0">
+        <div className="max-w-frame mx-auto px-4 xl:px-8">
           {/* Hero Section */}
           <div className="relative overflow-hidden rounded-[20px] sm:rounded-[28px] bg-[#f7f6f4] mb-12 sm:mb-16">
             <div className="relative z-10 px-6 sm:px-12 lg:px-16 py-12 sm:py-16 lg:py-24 text-center">
@@ -166,3 +166,4 @@ export default function AboutPage() {
     </>
   );
 }
+

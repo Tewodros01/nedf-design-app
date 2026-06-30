@@ -43,7 +43,7 @@ export default function ContactPage() {
   return (
     <>
       {/* Breadcrumb */}
-      <div className="max-w-frame mx-auto px-4 xl:px-0 pt-5 sm:pt-6">
+      <div className="max-w-frame mx-auto px-4 xl:px-8 pt-5 sm:pt-6">
         <hr className="h-[1px] border-t-black/10 mb-5 sm:mb-6" />
         <nav className="flex items-center text-sm text-black/60 mb-8">
           <Link href="/" className="hover:text-black">{t("home")}</Link>
@@ -53,7 +53,7 @@ export default function ContactPage() {
       </div>
 
       <main className="pb-20">
-        <div className="max-w-frame mx-auto px-4 xl:px-0">
+        <div className="max-w-frame mx-auto px-4 xl:px-8">
           {/* Header */}
           <div className="text-center mb-12">
             <h1
@@ -253,3 +253,4 @@ export default function ContactPage() {
     </>
   );
 }
+

@@ -34,7 +34,7 @@ const CollectionList = ({ title, description, data }: CollectionListProps) => {
   const { t } = useLanguage();
 
   return (
-    <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="max-w-frame mx-auto px-4 sm:px-6 lg:px-8">
       <div className="py-4">
         <motion.div
           initial={{ y: "50px", opacity: 0 }}

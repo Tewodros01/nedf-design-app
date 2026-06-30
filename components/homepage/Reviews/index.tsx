@@ -59,7 +59,7 @@ const Reviews = ({ data }: ReviewsProps) => {
           }}
           className="relative w-full mb-6 md:mb-9"
         >
-          <div className="relative flex items-end sm:items-center max-w-frame mx-auto mb-6 md:mb-10 px-4 xl:px-0">
+          <div className="relative flex items-end sm:items-center max-w-frame mx-auto mb-6 md:mb-10 px-4 xl:px-8">
             <motion.h2
               initial={{ y: "100px", opacity: 0 }}
               whileInView={{ y: "0", opacity: 1 }}
@@ -132,3 +132,4 @@ const Reviews = ({ data }: ReviewsProps) => {
 };
 
 export default Reviews;
+

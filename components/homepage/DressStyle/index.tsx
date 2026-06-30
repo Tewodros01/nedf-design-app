@@ -10,7 +10,7 @@ const DressStyle = () => {
   const { t } = useLanguage();
 
   return (
-    <div className="px-4 xl:px-0">
+    <div className="px-4 xl:px-8">
       <section className="max-w-frame mx-auto bg-[#F0F0F0] px-4 sm:px-6 pb-6 pt-7 sm:pt-10 md:p-[70px] rounded-[20px] sm:rounded-[40px] text-center">
         <motion.h2
           initial={{ y: "80px", opacity: 0 }}
@@ -70,3 +70,4 @@ const DressStyle = () => {
 };
 
 export default DressStyle;
+

@@ -13,7 +13,7 @@ const Header = () => {
 
   return (
     <header className="py-3 sm:py-6 sm:pt-8">
-      <div className="relative max-w-[1500px] mx-auto px-4 sm:px-6">
+      <div className="relative max-w-frame mx-auto px-4 sm:px-6">
         <div className="relative overflow-hidden rounded-2xl sm:rounded-[28px] bg-[#f7f6f4] shadow-[0_8px_40px_rgba(0,0,0,0.06)] sm:shadow-[0_40px_120px_rgba(0,0,0,0.08)]">
           {/* Decorative fabric blobs — hidden on mobile to keep it clean */}
           <div className="hidden sm:block absolute -left-20 bottom-0 w-[320px] h-[480px] rotate-[-6deg] bg-[url('/images/fabric-left.png')] bg-cover opacity-90 pointer-events-none" />

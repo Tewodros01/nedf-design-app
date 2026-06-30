@@ -22,7 +22,7 @@ const TopBanner = ({ onClose }: Props) => {
   };
 
   return (
-    <div className="bg-black text-white py-2.5 px-4 xl:px-0">
+    <div className="bg-black text-white py-2.5 px-4 xl:px-8">
       <div className="relative max-w-frame mx-auto flex items-center justify-center">
         <p className="text-xs sm:text-sm text-center pr-8 sm:pr-0">
           {t("bannerSignup")}{" "}
@@ -53,3 +53,4 @@ const TopBanner = ({ onClose }: Props) => {
 };
 
 export default TopBanner;
+

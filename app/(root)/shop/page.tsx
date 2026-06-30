@@ -160,7 +160,7 @@ const styleFilterMap: Record<string, (p: Product) => boolean> = {
   if (loading) {
     return (
       <main className="pb-20">
-        <div className="max-w-frame mx-auto px-4 sm:px-6 xl:px-0">
+        <div className="max-w-frame mx-auto px-4 sm:px-6 xl:px-8">
           <hr className="h-[1px] border-t-black/10 mb-5 sm:mb-6" />
           <BreadcrumbShop />
           <div className="flex items-center justify-center py-20">
@@ -243,7 +243,7 @@ const styleFilterMap: Record<string, (p: Product) => boolean> = {
   return (
     <>
       <main className="pb-20">
-      <div className="max-w-frame mx-auto px-4 sm:px-6 xl:px-0">
+      <div className="max-w-frame mx-auto px-4 sm:px-6 xl:px-8">
         <hr className="h-[1px] border-t-black/10 mb-5 sm:mb-6" />
         <BreadcrumbShop />
         <div className="flex flex-col md:flex-row md:gap-5 items-start">
@@ -432,3 +432,4 @@ export default function ShopPage() {
     </Suspense>
   );
 }
+

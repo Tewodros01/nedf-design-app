@@ -38,7 +38,7 @@ export default async function CollectionPage({
 
   return (
     <main className="pb-20">
-      <div className="max-w-frame mx-auto px-4 xl:px-0">
+      <div className="max-w-frame mx-auto px-4 sm:px-6 xl:px-8">
         <hr className="h-[1px] border-t-black/10 mb-5 sm:mb-6" />
 
         <Breadcrumb className="mb-5 sm:mb-9">

@@ -23,7 +23,7 @@ const ProductListSec = ({ title, data, viewAllLink }: ProductListSecProps) => {
   const { t } = useLanguage();
 
   return (
-    <section className="max-w-frame mx-auto text-center">
+    <section className="max-w-frame mx-auto px-4 sm:px-6 xl:px-8 text-center">
       <motion.h2
         initial={{ y: "100px", opacity: 0 }}
         whileInView={{ y: "0", opacity: 1 }}
@@ -48,7 +48,7 @@ const ProductListSec = ({ title, data, viewAllLink }: ProductListSecProps) => {
           }}
           className="w-full mb-6 md:mb-9"
         >
-          <CarouselContent className="mx-4 xl:mx-0 space-x-4 sm:space-x-5">
+          <CarouselContent className="space-x-4 sm:space-x-5">
             {data.map((product) => (
               <CarouselItem
                 key={product.id}
